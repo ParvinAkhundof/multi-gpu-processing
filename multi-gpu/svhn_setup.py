@@ -14,6 +14,8 @@ def svhn_train_dataset(batch_size):
   y_train = y_train[:,0]
   y_train[y_train==10] = 0
 
+  print("0")
+
   return (
       tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(batch_size)
   )
@@ -28,6 +30,8 @@ def svhn_test_dataset():
     X_test = np.rollaxis(X_test, 3)/ 255
     y_test = y_test[:,0]
     y_test[y_test==10] = 0
+
+    print("1")
 
     return (
         tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(batch_size)
@@ -51,12 +55,14 @@ def build_and_compile_cnn_model():
   model.add(keras.layers.Dense(10, activation='softmax'))
 
   model.summary()
+  print("2")
 
   model.compile(
       optimizer=keras.optimizers.Adam(),
       loss=keras.losses.SparseCategoricalCrossentropy(),
       metrics=[keras.metrics.SparseCategoricalAccuracy()],
   )
+  print("3")
 
 
 

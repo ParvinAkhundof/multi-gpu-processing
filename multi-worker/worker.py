@@ -4,9 +4,11 @@ import mnist_setup
 import tensorflow as tf
 import sys
 
+
+
 tf_config={
     'cluster': {
-        'worker': ['172.31.80.132:12345', '172.31.80.132:23456']
+        'worker': ['10.42.0.1:12345', '10.42.0.1:23456']
     },
     'task': {'type': 'worker', 'index': 0}
 }
@@ -20,7 +22,10 @@ per_worker_batch_size = 64
 tf_config = json.loads(os.environ['TF_CONFIG'])
 num_workers = len(tf_config['cluster']['worker'])
 
-strategy = tf.distribute.MultiWorkerMirroredStrategy()
+strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(
+    communication=tf.distribute.experimental.CollectiveCommunication.AUTO,
+    cluster_resolver=None
+)
 
 global_batch_size = per_worker_batch_size * num_workers
 multi_worker_dataset = mnist_setup.mnist_dataset(global_batch_size)
