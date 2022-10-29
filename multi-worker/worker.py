@@ -13,6 +13,8 @@ tf_config = {
 
 tf_config['task']['index'] = int(sys.argv[1])
 
+os.environ['TF_CONFIG'] = json.dumps(tf_config)
+
 
 per_worker_batch_size = 64
 tf_config = json.loads(os.environ['TF_CONFIG'])
