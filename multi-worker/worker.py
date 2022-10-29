@@ -4,9 +4,9 @@ import mnist_setup
 import tensorflow as tf
 import sys
 
-tf_config = {
+tf_config={
     'cluster': {
-        'worker': ['10.42.0.1:12345', '10.42.0.1:23456']
+        'worker': ['172.31.80.132:12345', '172.31.80.132:23456']
     },
     'task': {'type': 'worker', 'index': 0}
 }
