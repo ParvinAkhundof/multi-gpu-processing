@@ -51,26 +51,13 @@ def build_and_compile_cnn_model():
   model.add(keras.layers.Dense(10, activation='softmax'))
 
   model.summary()
-
+  print("0")
   model.compile(
       optimizer=keras.optimizers.Adam(),
       loss=keras.losses.SparseCategoricalCrossentropy(),
       metrics=[keras.metrics.SparseCategoricalAccuracy()],
   )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  print("1")
 
   return model
 
