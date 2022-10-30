@@ -36,6 +36,17 @@ print(num_workers)
  
 
 with strategy.scope():
-  mirrored_variable = tf.Variable(1.)
+  model = tf.keras.Sequential([
+      tf.keras.layers.InputLayer(input_shape=(28, 28)),
+      tf.keras.layers.Reshape(target_shape=(28, 28, 1)),
+      tf.keras.layers.Conv2D(32, 3, activation='relu'),
+      tf.keras.layers.Flatten(),
+      tf.keras.layers.Dense(128, activation='relu'),
+      tf.keras.layers.Dense(10)
+  ])
+#   model.compile(
+#       loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+#       optimizer=tf.keras.optimizers.SGD(learning_rate=0.001),
+#       metrics=['accuracy'])
 
-print(mirrored_variable)  
+print(model)  
