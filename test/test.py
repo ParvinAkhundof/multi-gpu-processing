@@ -17,18 +17,21 @@ tf_config['task']['index'] = int(sys.argv[1])
 os.environ['TF_CONFIG'] = json.dumps(tf_config)
 
 
-per_worker_batch_size = 64
+per_worker_batch_size = 32
 tf_config = json.loads(os.environ['TF_CONFIG'])
-num_workers = len(tf_config['cluster']['worker'])
 
 
-
-global_batch_size = per_worker_batch_size * num_workers
 
 strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(
     communication=tf.distribute.experimental.CollectiveCommunication.AUTO,
     cluster_resolver=None
 )
+
+num_workers = format(strategy.num_replicas_in_sync)
+
+global_batch_size = per_worker_batch_size * num_workers
+print(num_workers)
+
 
 with strategy.scope():
   mirrored_variable = tf.Variable(1.)
