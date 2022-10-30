@@ -8,7 +8,7 @@ import numpy as np
 
 tf_config={
     'cluster': {
-        'worker': ['10.42.0.1:12345', '10.42.0.1:23456', '10.42.0.1:34567']
+        'worker': ['10.42.0.1:12345', '10.42.0.1:23456']
     },
     'task': {'type': 'worker', 'index': 0}
 }
@@ -25,7 +25,7 @@ tf_config = json.loads(os.environ['TF_CONFIG'])
 
 communication_options = tf.distribute.experimental.CommunicationOptions(
     implementation=tf.distribute.experimental.CommunicationImplementation.NCCL)
-    
+
 strategy = tf.distribute.MultiWorkerMirroredStrategy(
     communication_options=communication_options)
 
