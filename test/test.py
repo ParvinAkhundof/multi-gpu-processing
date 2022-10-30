@@ -5,6 +5,7 @@ import sys
 import numpy as np
 
 
+
 tf_config={
     'cluster': {
         'worker': ['10.42.0.1:12345', '10.42.0.1:23456', '10.42.0.1:34567']
@@ -31,7 +32,7 @@ num_workers = format(strategy.num_replicas_in_sync)
 
 global_batch_size = per_worker_batch_size * num_workers
 print(num_workers)
-
+ 
 
 with strategy.scope():
   mirrored_variable = tf.Variable(1.)
