@@ -23,9 +23,7 @@ tf_config = json.loads(os.environ['TF_CONFIG'])
 
 
 
-strategy = tf.distribute.MultiWorkerMirroredStrategy(
-    cluster_resolver=None, communication_options=None
-)
+strategy = tf.distribute.MultiWorkerMirroredStrategy()
 
 num_workers = format(strategy.num_replicas_in_sync)
 
