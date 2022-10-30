@@ -18,32 +18,41 @@ tf_config['task']['index'] = int(sys.argv[1])
 os.environ['TF_CONFIG'] = json.dumps(tf_config)
 
 
-per_worker_batch_size = 32
-tf_config = json.loads(os.environ['TF_CONFIG'])
+# create fake dataset file
+def serialize_example(value):
+    feature = {
+      'color': tf.train.Feature(bytes_list=tf.train.BytesList(value=value)),
+    }
+    example_proto = tf.train.Example(features=tf.train.Features(feature=feature))
+    return example_proto.SerializeToString()
 
+tfrecord_writer = tf.io.TFRecordWriter('./color.tfrecord')
+for each in [['G', 'R'], ['B'], ['B', 'G'], ['R']]:
+    tfrecord_writer.write(serialize_example(each))
+tfrecord_writer.close()
 
+# build feature column
+color_column = tf.feature_column.categorical_column_with_vocabulary_list('color', ['R', 'G', 'B'], dtype=tf.string)
+color_embeding = tf.feature_column.embedding_column(color_column, 4) # tf.feature_column.indicator_column(color_column)
 
-communication_options = tf.distribute.experimental.CommunicationOptions(
-    implementation=tf.distribute.experimental.CommunicationImplementation.NCCL)
+inputs = {}
+inputs['color'] = tf.keras.layers.Input(name='color', shape=(None, ), sparse=True, dtype='string')
 
-strategy = tf.distribute.MultiWorkerMirroredStrategy(
-    communication_options=communication_options)
+# build model
+with tf.distribute.experimental.MultiWorkerMirroredStrategy().scope():
+    dense = tf.keras.layers.DenseFeatures([color_embeding])(inputs)
+    output = tf.keras.layers.Dense(1, activation='sigmoid')(dense)
+    model = tf.keras.Model(inputs, output)
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
-num_workers = format(strategy.num_replicas_in_sync)
+# build dataset
+def parse(example_proto):
+    feature_description = {
+        'color': tf.io.VarLenFeature(tf.string)
+    }
+    parsed_features = tf.io.parse_single_example(example_proto, feature_description)
+    return parsed_features, True
 
-global_batch_size = per_worker_batch_size * num_workers
-print(num_workers)
+dataset = tf.data.TFRecordDataset('./color.tfrecord').map(parse).repeat().batch(1)
 
-
- 
-
-with strategy.scope():
-    inputs = tf.keras.layers.Input(shape=(10, 1))
-    layer = tf.keras.layers.Dense(5, activation='relu')(inputs)
-    layer = tf.keras.layers.Dense(1)(layer)
-
-    lstm_stacked = tf.keras.Model(inputs=inputs, outputs=layer)
-    lstm_stacked.compile(optimizer=tf.keras.optimizers.Adam(),loss=tf.keras.losses.MeanSquaredError())
-    lstm_stacked.summary()
-
-print(lstm_stacked)  
+model.fit(dataset, epochs=3, steps_per_epoch=1)
