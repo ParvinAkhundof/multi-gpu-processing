@@ -15,7 +15,7 @@ def get_client_stream_requests():
         time.sleep(1)
 
 def run():
-    with grpc.insecure_channel('10.42.0.1:50051') as channel:
+    with grpc.insecure_channel('172.31.86.240:50051') as channel:
         stub = greet_pb2_grpc.GreeterStub(channel)
         print("1. SayHello - Unary")
         print("2. ParrotSaysHello - Server Side Streaming")
