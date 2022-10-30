@@ -8,7 +8,7 @@ import numpy as np
 
 tf_config={
     'cluster': {
-        'worker': ['10.42.0.1:8500', '10.42.0.1:8501']
+        'worker': ['10.42.0.1:4448', '10.42.0.1:4449']
     },
     'task': {'type': 'worker', 'index': 0}
 }
