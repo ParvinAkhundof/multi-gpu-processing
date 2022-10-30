@@ -8,7 +8,7 @@ print("tf version-"+tf.version.VERSION)
 
 tf_config={
     'cluster': {
-        'worker': ['10.42.0.1:4448', '10.42.0.1:4449']
+        'worker': ['172.31.80.132:4448', '172.31.80.132:4449']
     },
     'task': {'type': 'worker', 'index': 0}
 }
