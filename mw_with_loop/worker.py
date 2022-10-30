@@ -21,10 +21,7 @@ os.environ['TF_CONFIG'] = json.dumps(tf_config)
 per_worker_batch_size = 32
 tf_config = json.loads(os.environ['TF_CONFIG'])
 
-strategy = tf.distribute.MultiWorkerMirroredStrategy(
-    communication=tf.distribute.experimental.CollectiveCommunication.AUTO,
-    cluster_resolver=None
-)
+strategy = tf.distribute.MultiWorkerMirroredStrategy()
 num_workers = format(strategy.num_replicas_in_sync)
 
 global_batch_size = per_worker_batch_size * num_workers
