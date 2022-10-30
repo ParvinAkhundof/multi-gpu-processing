@@ -23,9 +23,11 @@ tf_config = json.loads(os.environ['TF_CONFIG'])
 
 
 
+strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(
+    communication=tf.distribute.experimental.CollectiveCommunication.AUTO,
+    cluster_resolver=None
+)
 
-
-strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
 
 num_workers = format(strategy.num_replicas_in_sync)
 
@@ -42,8 +44,7 @@ with strategy.scope():
       tf.keras.layers.Dense(128, activation='relu'),
       tf.keras.layers.Dense(10)
   ])
-with strategy.scope():
-    model.compile(optimizer='adam',
+  model.compile(optimizer='adam',
                   loss='categorical_crossentropy', metrics='accuracy') 
 
 print(model)  
