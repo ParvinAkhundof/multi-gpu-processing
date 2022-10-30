@@ -18,41 +18,47 @@ tf_config['task']['index'] = int(sys.argv[1])
 os.environ['TF_CONFIG'] = json.dumps(tf_config)
 
 
-# create fake dataset file
-def serialize_example(value):
-    feature = {
-      'color': tf.train.Feature(bytes_list=tf.train.BytesList(value=value)),
-    }
-    example_proto = tf.train.Example(features=tf.train.Features(feature=feature))
-    return example_proto.SerializeToString()
+per_worker_batch_size = 32
+tf_config = json.loads(os.environ['TF_CONFIG'])
 
-tfrecord_writer = tf.io.TFRecordWriter('./color.tfrecord')
-for each in [['G', 'R'], ['B'], ['B', 'G'], ['R']]:
-    tfrecord_writer.write(serialize_example(each))
-tfrecord_writer.close()
 
-# build feature column
-color_column = tf.feature_column.categorical_column_with_vocabulary_list('color', ['R', 'G', 'B'], dtype=tf.string)
-color_embeding = tf.feature_column.embedding_column(color_column, 4) # tf.feature_column.indicator_column(color_column)
 
-inputs = {}
-inputs['color'] = tf.keras.layers.Input(name='color', shape=(None, ), sparse=True, dtype='string')
+communication_options = tf.distribute.experimental.CommunicationOptions(
+    implementation=tf.distribute.experimental.CommunicationImplementation.NCCL)
 
-# build model
-with tf.distribute.experimental.MultiWorkerMirroredStrategy().scope():
-    dense = tf.keras.layers.DenseFeatures([color_embeding])(inputs)
-    output = tf.keras.layers.Dense(1, activation='sigmoid')(dense)
-    model = tf.keras.Model(inputs, output)
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+strategy = tf.distribute.MultiWorkerMirroredStrategy(
+    communication_options=communication_options)
 
-# build dataset
-def parse(example_proto):
-    feature_description = {
-        'color': tf.io.VarLenFeature(tf.string)
-    }
-    parsed_features = tf.io.parse_single_example(example_proto, feature_description)
-    return parsed_features, True
+num_workers = format(strategy.num_replicas_in_sync)
 
-dataset = tf.data.TFRecordDataset('./color.tfrecord').map(parse).repeat().batch(1)
+global_batch_size = per_worker_batch_size * num_workers
+print(num_workers)
 
-model.fit(dataset, epochs=3, steps_per_epoch=1)
+batch_size = 12
+features_shape = 372, 558, 3
+labels = 10
+sample = tf.random.uniform(features_shape)
+
+def with_shape(t, shape):
+    t = tf.squeeze(t)
+    t.set_shape(shape)
+    return t
+
+ds_train = tf.data.Dataset.from_tensors([sample]).map(lambda s: (s, tf.ones((labels,)))) \
+    .repeat().batch(batch_size).map(lambda s, l: (with_shape(s, (batch_size,) + features_shape),
+                                                    with_shape(l, (batch_size, labels))))
+ds_val = tf.data.Dataset.from_tensors([sample]).map(lambda s: (s, tf.ones((labels,)))) \
+    .repeat().batch(batch_size).take(10).map(
+    lambda s, l: (with_shape(s, (batch_size,) + features_shape), with_shape(l, (batch_size, labels))))
+ 
+
+with strategy.scope():
+    model = tf.keras.applications.DenseNet121(
+        weights=None, input_shape=features_shape, classes=labels)
+    model.build((batch_size,) + features_shape)
+    model.summary()
+    optimizer = tf.keras.optimizers.RMSprop(learning_rate=0.001)
+    cross_entropy = tf.keras.losses.CategoricalCrossentropy(label_smoothing=0.1)
+    model.compile(optimizer=optimizer, loss=cross_entropy, metrics=["accuracy"])
+
+print(model)  
