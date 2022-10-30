@@ -33,4 +33,4 @@ strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(
 with strategy.scope():
   mirrored_variable = tf.Variable(1.)
 
-print(mirrored_variable) 
+print(mirrored_variable)  
