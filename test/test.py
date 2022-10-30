@@ -4,7 +4,7 @@ import tensorflow as tf
 import sys
 import numpy as np
 
-
+print("tf version-"+tf.version.VERSION)
 
 tf_config={
     'cluster': {
