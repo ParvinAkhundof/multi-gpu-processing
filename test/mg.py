@@ -4,11 +4,11 @@ import tensorflow as tf
 import sys
 import numpy as np
 
+import grpc
+print(grpc.__version__)
 
+#Successfully installed grpcio-1.50.0 grpcio-tools-1.50.0 protobuf-4.21.9
 
-
-physical_devices = tf.config.list_physical_devices('GPU')
-print("Num GPUs:", len(physical_devices))
 
 # strategy = tf.distribute.MirroredStrategy(["/cpu:0","/cpu:1"])
 
