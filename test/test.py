@@ -42,9 +42,8 @@ with strategy.scope():
       tf.keras.layers.Dense(128, activation='relu'),
       tf.keras.layers.Dense(10)
   ])
-  model.compile(
-      loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-      optimizer=tf.keras.optimizers.SGD(learning_rate=0.001),
-      metrics=['accuracy'])
+with strategy.scope():
+    model.compile(optimizer='adam',
+                  loss='categorical_crossentropy', metrics='accuracy') 
 
 print(model)  
