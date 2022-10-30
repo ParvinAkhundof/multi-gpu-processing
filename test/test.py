@@ -23,7 +23,11 @@ tf_config = json.loads(os.environ['TF_CONFIG'])
 
 
 
-strategy = tf.distribute.MultiWorkerMirroredStrategy()
+communication_options = tf.distribute.experimental.CommunicationOptions(
+    implementation=tf.distribute.experimental.CommunicationImplementation.NCCL)
+    
+strategy = tf.distribute.MultiWorkerMirroredStrategy(
+    communication_options=communication_options)
 
 num_workers = format(strategy.num_replicas_in_sync)
 
