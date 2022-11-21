@@ -6,13 +6,16 @@ import numpy as np
 
 def svhn_train_dataset(batch_size):
 
-  train = loadmat('../datasets/train_32x32.mat')
+  train = loadmat('../../datasets/train_32x32.mat')
 
   X_train = train['X']
   y_train = train['y']
   X_train = np.rollaxis(X_train, 3)/ 255
   y_train = y_train[:,0]
   y_train[y_train==10] = 0
+
+  X_train=X_train[:25000]
+  y_train=y_train[:25000]
 
   return (
       tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(batch_size)
@@ -21,7 +24,7 @@ def svhn_train_dataset(batch_size):
 def svhn_test_dataset():
     batch_size = 32
 
-    test = loadmat('../datasets/test_32x32.mat')
+    test = loadmat('../../datasets/test_32x32.mat')
 
     X_test = test['X']
     y_test = test['y']
@@ -51,13 +54,26 @@ def build_and_compile_cnn_model():
   model.add(keras.layers.Dense(10, activation='softmax'))
 
   model.summary()
-  print("0")
+
   model.compile(
       optimizer=keras.optimizers.Adam(),
       loss=keras.losses.SparseCategoricalCrossentropy(),
       metrics=[keras.metrics.SparseCategoricalAccuracy()],
   )
-  print("1")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return model
 

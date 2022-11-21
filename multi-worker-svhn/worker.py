@@ -41,4 +41,4 @@ callbacks = [
 ]
 print(2)
 
-multi_worker_model.fit(multi_worker_dataset,callbacks=callbacks)
+multi_worker_model.fit(multi_worker_dataset,callbacks=callbacks,steps_per_epoch=100)
