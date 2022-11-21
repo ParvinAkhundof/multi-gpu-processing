@@ -16,7 +16,7 @@ with strategy.scope():
   # Model building/compiling need to be within `strategy.scope()`.
   model = make_or_restore.make_or_restore_model(checkpoint_dir)
 
-test_dataset = svhn_setup.svhn_test_dataset()
+test_dataset = svhn_setup.svhn_test_dataset(32)
 
 loss, acc = model.evaluate(test_dataset)
 print("Model accuracy on test data is: {:6.3f}%".format(100 * acc))
