@@ -4,34 +4,37 @@ import tensorflow as tf
 from tensorflow import keras
 import numpy as np
 
-def svhn_train_dataset(batch_size):
+def svhn_train_dataset(batch_size,data_size_start, data_size_end):
 
-  train = loadmat('../datasets/train_32x32.mat')
+  train = loadmat('../../datasets/train_32x32.mat')
 
   X_train = train['X']
   y_train = train['y']
+  print("Shape of X_train is:", X_train.shape)
+  print("Shape of y_train is:", y_train.shape)
   X_train = np.rollaxis(X_train, 3)/ 255
   y_train = y_train[:,0]
   y_train[y_train==10] = 0
 
-  print("0")
+  X_train=X_train[data_size_start:data_size_end]
+  y_train=y_train[data_size_start:data_size_end]
+
+  print("Shape of X_train is:", X_train.shape)
+  print("Shape of y_train is:", y_train.shape)
 
   return (
       tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(batch_size)
   )
 
-def svhn_test_dataset():
-    batch_size = 32
+def svhn_test_dataset(batch_size):
 
-    test = loadmat('../datasets/test_32x32.mat')
+    test = loadmat('../../datasets/test_32x32.mat')
 
     X_test = test['X']
     y_test = test['y']
     X_test = np.rollaxis(X_test, 3)/ 255
     y_test = y_test[:,0]
     y_test[y_test==10] = 0
-
-    print("1")
 
     return (
         tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(batch_size)
@@ -55,28 +58,12 @@ def build_and_compile_cnn_model():
   model.add(keras.layers.Dense(10, activation='softmax'))
 
   model.summary()
-  print("2")
 
   model.compile(
       optimizer=keras.optimizers.Adam(),
       loss=keras.losses.SparseCategoricalCrossentropy(),
       metrics=[keras.metrics.SparseCategoricalAccuracy()],
   )
-  print("3")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   return model
 
