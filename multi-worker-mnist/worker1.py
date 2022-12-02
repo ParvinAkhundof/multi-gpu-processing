@@ -9,7 +9,7 @@ import mnist_setup
 
 tf_config = {
     'cluster': {
-        'worker': ['192.168.2.140:12345', '192.168.2.140:23456']
+        'worker': ['192.168.75.34:12345', '192.168.75.34:23456']
     },
     'task': {'type': 'worker', 'index': 1}
 }
