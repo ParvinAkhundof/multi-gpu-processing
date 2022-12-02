@@ -6,7 +6,7 @@ import numpy as np
 
 def svhn_train_dataset(batch_size):
 
-  train = loadmat('../../datasets/train_32x32.mat')
+  train = loadmat('../datasets/train_32x32.mat')
 
   X_train = train['X']
   y_train = train['y']
@@ -24,7 +24,7 @@ def svhn_train_dataset(batch_size):
 def svhn_test_dataset():
     batch_size = 32
 
-    test = loadmat('../../datasets/test_32x32.mat')
+    test = loadmat('../datasets/test_32x32.mat')
 
     X_test = test['X']
     y_test = test['y']
