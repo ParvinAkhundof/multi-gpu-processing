@@ -1,0 +1,29 @@
+2022-12-02 12:18:37.968009: E tensorflow/core/distributed_runtime/coordination/coordination_service_agent.cc:675] Coordination agent is in ERROR: UNAVAILABLE: failed to connect to all addresses
+Additional GRPC error information from remote target /job:worker/replica:0/task:0:
+:{"created":"@1669979917.967740771","description":"Failed to pick subchannel","file":"external/com_github_grpc_grpc/src/core/ext/filters/client_channel/client_channel.cc","file_line":3940,"referenced_errors":[{"created":"@1669979917.962383046","description":"failed to connect to all addresses","file":"external/com_github_grpc_grpc/src/core/ext/filters/client_channel/lb_policy/pick_first/pick_first.cc","file_line":392,"grpc_status":14}]}
+2022-12-02 12:18:37.968138: E tensorflow/core/common_runtime/base_collective_executor.cc:249] BaseCollectiveExecutor::StartAbort UNAVAILABLE: failed to connect to all addresses
+Additional GRPC error information from remote target /job:worker/replica:0/task:0:
+:{"created":"@1669979917.967740771","description":"Failed to pick subchannel","file":"external/com_github_grpc_grpc/src/core/ext/filters/client_channel/client_channel.cc","file_line":3940,"referenced_errors":[{"created":"@1669979917.962383046","description":"failed to connect to all addresses","file":"external/com_github_grpc_grpc/src/core/ext/filters/client_channel/lb_policy/pick_first/pick_first.cc","file_line":392,"grpc_status":14}]}
+2022-12-02 12:18:37.968599: E tensorflow/core/common_runtime/ring_alg.cc:291] Aborting RingReduce with UNAVAILABLE: Collective ops is aborted by: failed to connect to all addresses
+Additional GRPC error information from remote target /job:worker/replica:0/task:0:
+:{"created":"@1669979917.967740771","description":"Failed to pick subchannel","file":"external/com_github_grpc_grpc/src/core/ext/filters/client_channel/client_channel.cc","file_line":3940,"referenced_errors":[{"created":"@1669979917.962383046","description":"failed to connect to all addresses","file":"external/com_github_grpc_grpc/src/core/ext/filters/client_channel/lb_policy/pick_first/pick_first.cc","file_line":392,"grpc_status":14}]}
+The error could be from a previous operation. Restart your program to reset. [type.googleapis.com/tensorflow.DerivedStatus='']
+Traceback (most recent call last):
+  File "/home/fdai5609/multi-gpu-processing/multi-worker-mnist/worker1.py", line 35, in <module>
+    multi_worker_model = mnist_setup.build_and_compile_cnn_model()
+  File "/home/fdai5609/multi-gpu-processing/multi-worker-mnist/mnist_setup.py", line 24, in build_and_compile_cnn_model
+    model.compile(
+  File "/usr/local/lib/python3.10/dist-packages/keras/utils/traceback_utils.py", line 70, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "/usr/lib/python3.10/multiprocessing/pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+  File "/usr/lib/python3.10/multiprocessing/pool.py", line 774, in get
+    raise self._value
+  File "/usr/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/usr/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+tensorflow.python.framework.errors_impl.UnavailableError: {{function_node __wrapped__CollectiveReduceV2_Nordering_token_1_device_/job:worker/replica:0/task:1/device:GPU:0}} Collective ops is aborted by: failed to connect to all addresses
+Additional GRPC error information from remote target /job:worker/replica:0/task:0:
+:{"created":"@1669979917.967740771","description":"Failed to pick subchannel","file":"external/com_github_grpc_grpc/src/core/ext/filters/client_channel/client_channel.cc","file_line":3940,"referenced_errors":[{"created":"@1669979917.962383046","description":"failed to connect to all addresses","file":"external/com_github_grpc_grpc/src/core/ext/filters/client_channel/lb_policy/pick_first/pick_first.cc","file_line":392,"grpc_status":14}]}
+The error could be from a previous operation. Restart your program to reset. [Op:CollectiveReduceV2]

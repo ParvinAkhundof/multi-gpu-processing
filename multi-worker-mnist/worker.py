@@ -6,13 +6,11 @@ from tensorflow import keras
 import mnist_setup
 
 
+import config
+import sys
 
-tf_config = {
-    'cluster': {
-        'worker': ['192.168.75.34:12345', '192.168.75.34:23456']
-    },
-    'task': {'type': 'worker', 'index': 0}
-}
+tf_config=config.tf_config
+tf_config['task']['index'] = int(sys.argv[1])
 
 os.environ['TF_CONFIG']=json.dumps(tf_config)
 

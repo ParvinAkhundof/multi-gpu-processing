@@ -1,0 +1,6 @@
+you can run main.py files for Multimirrored strategies accordig to mnist and svhn datasets.
+
+it is also possible to run for MultiWorkerMirrored Strategies.
+    first you need edit config.py file. it needs to have all workers same ip adresses which will be the ip of the chief worker.
+    then you can call the following command "python worker.py n"
+        n is the number of the worker order. if you have 2 worker, then it can be 0 and 1.
