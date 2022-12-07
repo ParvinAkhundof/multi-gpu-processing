@@ -52,7 +52,9 @@ global_batch_size = 64
 options = tf.data.Options()
 options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.DATA
 multi_worker_dataset = mnist_dataset(global_batch_size)
-multi_worker_dataset_with_shrd = multi_worker_dataset.with_options(options)
+# multi_worker_dataset_with_shrd = multi_worker_dataset.with_options(options)
+
+multi_worker_dataset_with_shrd=strategy.experimental_distribute_dataset(multi_worker_dataset)
 
 with strategy.scope():
     # Model building/compiling need to be within `strategy.scope()`.
