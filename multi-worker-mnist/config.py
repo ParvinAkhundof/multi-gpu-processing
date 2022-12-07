@@ -1,6 +1,8 @@
+ip='10.42.0.1'
+
 tf_config={
     'cluster': {
-        'worker': ['10.42.0.1:12345', '10.42.0.1:12345']
+        'worker': [ip+':12345', ip+':12345']
     },
     'task': {'type': 'worker', 'index': 0}
 }
