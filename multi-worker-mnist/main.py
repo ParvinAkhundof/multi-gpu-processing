@@ -5,7 +5,7 @@ import tensorflow as tf
 import mnist_setup
 
 per_worker_batch_size = 64
-
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 strategy = tf.distribute.MultiWorkerMirroredStrategy()
 

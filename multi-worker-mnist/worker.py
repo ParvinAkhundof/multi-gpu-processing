@@ -8,7 +8,7 @@ import mnist_setup
 
 import config
 import sys
-
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 tf_config=config.tf_config
 tf_config['task']['index'] = int(sys.argv[1])
 
