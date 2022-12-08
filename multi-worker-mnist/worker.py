@@ -8,7 +8,7 @@ import mnist_setup
 
 import config
 import sys
-# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 tf_config=config.tf_config
 tf_config['task']['index'] = int(sys.argv[1])
 
@@ -46,4 +46,4 @@ callbacks = [
     keras.callbacks.TensorBoard(checkpoint_dir + "/tb/")
 ]
 
-multi_worker_model.fit(multi_worker_dataset, epochs=3, steps_per_epoch=100,callbacks=callbacks)
+multi_worker_model.fit(multi_worker_dataset,epochs=1,callbacks=callbacks)
