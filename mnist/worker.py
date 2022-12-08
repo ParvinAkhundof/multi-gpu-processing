@@ -6,7 +6,7 @@ import numpy as np
 import tensorflow as tf
 import config
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 if "." not in sys.path:
     sys.path.insert(0, ".")
 
