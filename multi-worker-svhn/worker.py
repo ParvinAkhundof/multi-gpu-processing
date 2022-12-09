@@ -32,6 +32,10 @@ global_batch_size = per_worker_batch_size * num_workers
 
 multi_worker_dataset = mnist_setup.mnist_dataset(global_batch_size)   ##MNIST
 
+options = tf.data.Options()
+options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.DATA
+multi_worker_dataset = multi_worker_dataset.with_options(options)
+
 start_time = time.time()
 with strategy.scope():
     
