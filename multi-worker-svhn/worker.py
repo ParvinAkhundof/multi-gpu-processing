@@ -28,7 +28,7 @@ num_workers = len(tf_config['cluster']['worker'])
 # strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
 strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(
     communication=tf.distribute.experimental.CollectiveCommunication.AUTO,
-    cluster_resolver=None
+    cluster_resolver=None 
 )
 
 print("Number of devices: {}".format(strategy.num_replicas_in_sync))
