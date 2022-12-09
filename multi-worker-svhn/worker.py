@@ -35,7 +35,7 @@ for x in tf_config['cluster']['worker']:
 
 print(index)
 
-tf_config['task']['index'] = int(sys.argv[1])
+tf_config['task']['index'] = index
 
 os.environ['TF_CONFIG']=json.dumps(tf_config)
 # os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
