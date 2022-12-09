@@ -4,7 +4,7 @@
 checkpoint_dir = "./ckpt"
 
 tf_config={
-    'cluster': {'worker': ['localhost:12345','localhost:23456']},'task': {'type': 'worker', 'index': 0}
+    'cluster': {'worker': ['localhost:12345']},'task': {'type': 'worker', 'index': 0}
 }
 
 
