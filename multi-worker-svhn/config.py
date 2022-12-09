@@ -4,7 +4,7 @@
 
 
 tf_config={
-    'cluster': {'worker': ['192.168.75.27:12345','192.168.75.28:23456']},'task': {'type': 'worker', 'index': 0}
+    'cluster': {'worker': ['192.168.75.28:12345','192.168.75.29:23456']},'task': {'type': 'worker', 'index': 0}
 }
 
 
