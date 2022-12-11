@@ -7,6 +7,7 @@ import svhn_setup
 import make_or_restore
 import config
 import mnist_setup
+import time
 
 
 
@@ -17,6 +18,7 @@ if not os.path.exists(checkpoint_dir):
 per_worker_batch_size = 32
 
 def run_training(epochs=1,train_dataset=0,strategy=0):
+    start_time = time.time()
     with strategy.scope():
         
         # model = make_or_restore.make_or_restore_model(checkpoint_dir) #SVHN
@@ -32,7 +34,9 @@ def run_training(epochs=1,train_dataset=0,strategy=0):
     # model.fit(train_dataset,callbacks=callbacks)
     model.fit(train_dataset,callbacks=callbacks,epochs=epochs)
     # model.fit(train_dataset,epochs=epochs,callbacks=callbacks,steps_per_epoch=100)
-    
+    elapsed_time = time.time() - start_time
+    str_elapsed_time = time.strftime("%H : %M : %S", time.gmtime(elapsed_time))
+    print(">> Finished. Time elapsed: {}.".format(str_elapsed_time))
     # test.reset_keras()
     return model
     
@@ -40,16 +44,17 @@ def run_training(epochs=1,train_dataset=0,strategy=0):
 # run_training(epochs=23)
 
 # strategy = tf.distribute.OneDeviceStrategy("/device:GPU:0")
-# strategy = tf.distribute.MirroredStrategy(["/device:GPU:0","/device:CPU:0"])  
+strategy = tf.distribute.MirroredStrategy(["/device:CPU:0"])  
+# strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
 # strategy = tf.distribute.MirroredStrategy(["/device:GPU:0"]) 
-strategy = tf.distribute.MirroredStrategy() 
+# strategy = tf.distribute.MirroredStrategy() 
 print("Number of devices: {}".format(strategy.num_replicas_in_sync))
 
 
 global_batch_size = per_worker_batch_size*strategy.num_replicas_in_sync
 
 print("!!!! global Batch Size = "+format(global_batch_size))
-slices=3
+slices=1
 size=73257
 model=1
 for x in range(slices):
