@@ -43,8 +43,8 @@ def run_training(epochs=1,train_dataset=0,strategy=0):
 
 # run_training(epochs=23)
 
-# strategy = tf.distribute.OneDeviceStrategy("/device:GPU:0")
-strategy = tf.distribute.MirroredStrategy(["/device:CPU:0"])  
+strategy = tf.distribute.OneDeviceStrategy("/device:GPU:0")
+# strategy = tf.distribute.MirroredStrategy(["/device:CPU:0"])  
 # strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
 # strategy = tf.distribute.MirroredStrategy(["/device:GPU:0"]) 
 # strategy = tf.distribute.MirroredStrategy() 
