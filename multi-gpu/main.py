@@ -20,7 +20,7 @@ def run_training(epochs=1,train_dataset=0,strategy=0):
     with strategy.scope():
         
         # model = make_or_restore.make_or_restore_model(checkpoint_dir) #SVHN
-        model = mnist_setup.build_and_compile_cnn_model(checkpoint_dir) #MNIST
+        model = mnist_setup.build_and_compile_cnn_model() #MNIST
             
 
     callbacks = [
