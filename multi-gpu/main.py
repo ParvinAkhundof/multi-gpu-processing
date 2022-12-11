@@ -11,9 +11,9 @@ import time
 
 
 
-# checkpoint_dir =config.checkpoint_dir
-# if not os.path.exists(checkpoint_dir):
-#     os.makedirs(checkpoint_dir)
+checkpoint_dir =config.checkpoint_dir
+if not os.path.exists(checkpoint_dir):
+    os.makedirs(checkpoint_dir)
 
 per_worker_batch_size = 32
 
@@ -21,8 +21,8 @@ def run_training(epochs=1,train_dataset=0,strategy=0):
     start_time = time.time()
     with strategy.scope():
         
-        # model = make_or_restore.make_or_restore_model(checkpoint_dir) #SVHN
-        model = mnist_setup.build_and_compile_cnn_model() #MNIST
+        model = make_or_restore.make_or_restore_model(checkpoint_dir) #SVHN
+        # model = mnist_setup.build_and_compile_cnn_model() #MNIST
             
 
     # callbacks = [
@@ -62,8 +62,8 @@ for x in range(slices):
     end=int(size/slices*(x+1))
     print(start)
     print(end)
-    # train_dataset = svhn_setup.svhn_train_dataset(global_batch_size,start,end) #SVHN
-    train_dataset = mnist_setup.mnist_dataset(global_batch_size)  #MNIST
+    train_dataset = svhn_setup.svhn_train_dataset(global_batch_size,start,end) #SVHN
+    # train_dataset = mnist_setup.mnist_dataset(global_batch_size)  #MNIST
     model=run_training(epochs=1,train_dataset=train_dataset,strategy=strategy)
    
 # test_dataset = svhn_setup.svhn_test_dataset(per_worker_batch_size)
