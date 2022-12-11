@@ -24,37 +24,40 @@ def get_ip():
     return IP
 
 
+
 tf_config=config.tf_config
 
-index=0
-my_ip=get_ip()
-for x in tf_config['cluster']['worker']:
-  if(x.split(':')[0]==my_ip):
-    break
-  index=index+1
+# index=0
+# my_ip=get_ip()
+# for x in tf_config['cluster']['worker']:
+#   if(x.split(':')[0]==my_ip):
+#     break
+#   index=index+1
 
-print(index)
+# print(index)
 
-tf_config['task']['index'] = index
+# tf_config['task']['index'] = index
+
+tf_config['task']['index'] = int(sys.argv[1])
 
 os.environ['TF_CONFIG']=json.dumps(tf_config)
 # os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
-# checkpoint_dir =config.checkpoint_dir
-# if not os.path.exists(checkpoint_dir):
-#     os.makedirs(checkpoint_dir)
+checkpoint_dir =config.checkpoint_dir
+if not os.path.exists(checkpoint_dir):
+    os.makedirs(checkpoint_dir)
 
 per_worker_batch_size = 32
 tf_config = json.loads(os.environ['TF_CONFIG'])
 num_workers = len(tf_config['cluster']['worker'])
 
-# strategy = tf.distribute.MultiWorkerMirroredStrategy()
+strategy = tf.distribute.MultiWorkerMirroredStrategy()
 # strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
-strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(
-    communication=tf.distribute.experimental.CollectiveCommunication.AUTO,
-    cluster_resolver=None 
-)
+# strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(
+#     communication=tf.distribute.experimental.CollectiveCommunication.AUTO,
+#     cluster_resolver=None 
+# )
 
 print("Number of devices: {}".format(strategy.num_replicas_in_sync))
 
@@ -70,7 +73,7 @@ multi_worker_dataset = multi_worker_dataset.with_options(options)
 start_time = time.time()
 with strategy.scope():
     
-  # multi_worker_model = make_or_restore.make_or_restore_model(checkpoint_dir) ##SVHN
+#   multi_worker_model = make_or_restore.make_or_restore_model(checkpoint_dir) ##SVHN
   multi_worker_model = mnist_setup.build_and_compile_cnn_model()  ##MNIST
 
 # callbacks = [
