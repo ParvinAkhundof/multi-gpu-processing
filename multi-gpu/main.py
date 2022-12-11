@@ -6,6 +6,7 @@ from tensorflow import keras
 import svhn_setup
 import make_or_restore
 import config
+import mnist_setup
 
 
 
@@ -18,7 +19,8 @@ per_worker_batch_size = 32
 def run_training(epochs=1,train_dataset=0,strategy=0):
     with strategy.scope():
         
-        model = make_or_restore.make_or_restore_model(checkpoint_dir)
+        # model = make_or_restore.make_or_restore_model(checkpoint_dir) #SVHN
+        model = mnist_setup.make_or_restore_model(checkpoint_dir) #MNIST
             
 
     callbacks = [
@@ -37,10 +39,10 @@ def run_training(epochs=1,train_dataset=0,strategy=0):
 
 # run_training(epochs=23)
 
-strategy = tf.distribute.OneDeviceStrategy("/device:GPU:0")
+# strategy = tf.distribute.OneDeviceStrategy("/device:GPU:0")
 # strategy = tf.distribute.MirroredStrategy(["/device:GPU:0","/device:CPU:0"])  
 # strategy = tf.distribute.MirroredStrategy(["/device:GPU:0"]) 
-# strategy = tf.distribute.MirroredStrategy() 
+strategy = tf.distribute.MirroredStrategy() 
 print("Number of devices: {}".format(strategy.num_replicas_in_sync))
 
 
@@ -55,7 +57,8 @@ for x in range(slices):
     end=int(size/slices*(x+1))
     print(start)
     print(end)
-    train_dataset = svhn_setup.svhn_train_dataset(global_batch_size,start,end)
+    # train_dataset = svhn_setup.svhn_train_dataset(global_batch_size,start,end) #SVHN
+    train_dataset = mnist_setup.mnist_dataset(global_batch_size)  #MNIST
     model=run_training(epochs=1,train_dataset=train_dataset,strategy=strategy)
    
 # test_dataset = svhn_setup.svhn_test_dataset(per_worker_batch_size)
