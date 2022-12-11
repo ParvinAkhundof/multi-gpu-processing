@@ -3,10 +3,18 @@ from scipy.io import loadmat
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
+# import tensorflow_datasets as tfds
 
 def svhn_train_dataset(batch_size):
 
   train = loadmat('../datasets/train_32x32.mat')
+#   train=tfds.load(
+#     'svhn_cropped',
+#      split=['train'],
+#      shuffle_files=True,
+#      as_supervised=True)
+
+
 
   X_train = train['X']
   y_train = train['y']
