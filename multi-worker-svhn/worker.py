@@ -31,12 +31,13 @@ index=0
 my_ip=get_ip()
 for x in tf_config['cluster']['worker']:
   if(x.split(':')[0]==my_ip):
-    break
+    tf_config['task']['index'] = index
+    print(index)
   index=index+1
 
-print(index)
 
-tf_config['task']['index'] = index
+
+
 
 # tf_config['task']['index'] = int(sys.argv[1])
 
