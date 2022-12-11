@@ -27,18 +27,18 @@ def get_ip():
 
 tf_config=config.tf_config
 
-# index=0
-# my_ip=get_ip()
-# for x in tf_config['cluster']['worker']:
-#   if(x.split(':')[0]==my_ip):
-#     break
-#   index=index+1
+index=0
+my_ip=get_ip()
+for x in tf_config['cluster']['worker']:
+  if(x.split(':')[0]==my_ip):
+    break
+  index=index+1
 
-# print(index)
+print(index)
 
-# tf_config['task']['index'] = index
+tf_config['task']['index'] = index
 
-tf_config['task']['index'] = int(sys.argv[1])
+# tf_config['task']['index'] = int(sys.argv[1])
 
 os.environ['TF_CONFIG']=json.dumps(tf_config)
 # os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
