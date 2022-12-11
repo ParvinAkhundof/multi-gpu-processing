@@ -11,9 +11,9 @@ import time
 
 
 
-checkpoint_dir =config.checkpoint_dir
-if not os.path.exists(checkpoint_dir):
-    os.makedirs(checkpoint_dir)
+# checkpoint_dir =config.checkpoint_dir
+# if not os.path.exists(checkpoint_dir):
+#     os.makedirs(checkpoint_dir)
 
 per_worker_batch_size = 32
 
@@ -25,14 +25,14 @@ def run_training(epochs=1,train_dataset=0,strategy=0):
         model = mnist_setup.build_and_compile_cnn_model() #MNIST
             
 
-    callbacks = [
+    # callbacks = [
         
-        keras.callbacks.ModelCheckpoint(
-            filepath=checkpoint_dir + "/ckpt-{epoch}", save_freq="epoch"
-        )
-    ]
-    # model.fit(train_dataset,callbacks=callbacks)
-    model.fit(train_dataset,callbacks=callbacks,epochs=epochs)
+    #     keras.callbacks.ModelCheckpoint(
+    #         filepath=checkpoint_dir + "/ckpt-{epoch}", save_freq="epoch"
+    #     )
+    # ]
+    model.fit(train_dataset)
+    # model.fit(train_dataset,callbacks=callbacks,epochs=epochs)
     # model.fit(train_dataset,epochs=epochs,callbacks=callbacks,steps_per_epoch=100)
     elapsed_time = time.time() - start_time
     str_elapsed_time = time.strftime("%H : %M : %S", time.gmtime(elapsed_time))
