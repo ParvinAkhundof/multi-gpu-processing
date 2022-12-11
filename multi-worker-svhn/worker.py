@@ -43,7 +43,7 @@ for x in tf_config['cluster']['worker']:
 
 os.environ['TF_CONFIG']=json.dumps(tf_config)
 # os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 # checkpoint_dir =config.checkpoint_dir
 # if not os.path.exists(checkpoint_dir):
@@ -54,11 +54,11 @@ tf_config = json.loads(os.environ['TF_CONFIG'])
 
 
 # strategy = tf.distribute.MultiWorkerMirroredStrategy()
-# strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
-strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(
-    communication=tf.distribute.experimental.CollectiveCommunication.AUTO,
-    cluster_resolver=None 
-)
+strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
+# strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(
+#     communication=tf.distribute.experimental.CollectiveCommunication.AUTO,
+#     cluster_resolver=None 
+# )
 
 num_workers = strategy.num_replicas_in_sync
 print("Number of devices: {}".format(strategy.num_replicas_in_sync))
@@ -68,9 +68,9 @@ global_batch_size = per_worker_batch_size * num_workers
 
 multi_worker_dataset = mnist_setup.mnist_dataset(global_batch_size)   ##MNIST
 
-# options = tf.data.Options()
-# options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.DATA
-# multi_worker_dataset = multi_worker_dataset.with_options(options)
+options = tf.data.Options()
+options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.DATA
+multi_worker_dataset = multi_worker_dataset.with_options(options)
 
 start_time = time.time()
 with strategy.scope():
