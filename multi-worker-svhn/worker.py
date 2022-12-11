@@ -51,15 +51,16 @@ if not os.path.exists(checkpoint_dir):
 
 per_worker_batch_size = 32
 tf_config = json.loads(os.environ['TF_CONFIG'])
-num_workers = len(tf_config['cluster']['worker'])
+
 
 # strategy = tf.distribute.MultiWorkerMirroredStrategy()
-strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
-# strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(
-#     communication=tf.distribute.experimental.CollectiveCommunication.AUTO,
-#     cluster_resolver=None 
-# )
+# strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
+strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(
+    communication=tf.distribute.experimental.CollectiveCommunication.AUTO,
+    cluster_resolver=None 
+)
 
+num_workers = strategy.num_replicas_in_sync
 print("Number of devices: {}".format(strategy.num_replicas_in_sync))
 
 global_batch_size = per_worker_batch_size * num_workers
