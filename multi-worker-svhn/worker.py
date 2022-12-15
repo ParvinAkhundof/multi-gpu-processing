@@ -78,16 +78,17 @@ with strategy.scope():
   multi_worker_model = make_or_restore.make_or_restore_model(checkpoint_dir) ##SVHN
   # multi_worker_model = mnist_setup.build_and_compile_cnn_model()  ##MNIST
 
-callbacks = [
+# callbacks = [
     
-    keras.callbacks.ModelCheckpoint(
-        filepath=checkpoint_dir + "/ckpt" #, save_freq=100
-    ),
-    keras.callbacks.TensorBoard(checkpoint_dir + "/tb/")
-]
+#     keras.callbacks.ModelCheckpoint(
+#         filepath=checkpoint_dir + "/ckpt" #, save_freq=100
+#     ),
+#     keras.callbacks.TensorBoard(checkpoint_dir + "/tb/")
+# ]
 start_time = time.time()
 
-multi_worker_model.fit(multi_worker_dataset,callbacks=callbacks)
+# multi_worker_model.fit(multi_worker_dataset,callbacks=callbacks)
+multi_worker_model.fit(multi_worker_dataset)
 
 elapsed_time = time.time() - start_time
 str_elapsed_time = time.strftime("%H : %M : %S", time.gmtime(elapsed_time))
