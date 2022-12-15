@@ -5,12 +5,26 @@ import numpy as np
 import tensorflow_datasets as tfds
 
 def svhn_train_dataset(batch_size):
-  
-  train=tfds.load('svhn_cropped', split='train[:5%]', shuffle_files=True)
-  train.download_and_prepare()
-  train= tfds.as_numpy(train.as_dataset(split='train', batch_size=-1))
-  X_train = train['image']
-  y_train = train['label']
+
+  # train=tfds.load('svhn_cropped', split='train[:5%]', shuffle_files=True)
+  # train.download_and_prepare()
+  # train= tfds.as_numpy(train.as_dataset(split='train', batch_size=-1))
+  # X_train = train['image']
+  # y_train = train['label']
+
+  # return (
+  #     tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(batch_size)
+  # )
+
+  train = loadmat('../train_32x32.mat')
+  X_train = train['X']
+  y_train = train['y']
+  X_train = np.rollaxis(X_train, 3)/ 255
+  y_train = y_train[:,0]
+  y_train[y_train==10] = 0
+
+  X_train=X_train[:25000]
+  y_train=y_train[:25000]
 
   return (
       tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(batch_size)
@@ -19,14 +33,20 @@ def svhn_train_dataset(batch_size):
 def svhn_test_dataset():
     batch_size = 32
 
-    train=tfds.builder('svhn_cropped')
-    train.download_and_prepare()
-    train= tfds.as_numpy(train.as_dataset(split='train', batch_size=-1))
-    X_train = train['image']
-    y_train = train['label']
+    test = loadmat('../test_32x32.mat')
+
+    X_test = test['X']
+    y_test = test['y']
+    X_test = np.rollaxis(X_test, 3)/ 255
+    y_test = y_test[:,0]
+    y_test[y_test==10] = 0
+
     return (
-      tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(batch_size)
-  )
+        tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(batch_size)
+    )
+  
+  
+
 
 def build_and_compile_cnn_model():
   model = keras.Sequential()
