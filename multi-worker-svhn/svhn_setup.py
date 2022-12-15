@@ -23,9 +23,6 @@ def svhn_train_dataset(batch_size):
   y_train = y_train[:,0]
   y_train[y_train==10] = 0
 
-  X_train=X_train[:25000]
-  y_train=y_train[:25000]
-
   return (
       tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(batch_size)
   )
