@@ -6,7 +6,7 @@ import tensorflow_datasets as tfds
 
 def svhn_train_dataset(batch_size):
   
-  train=tfds.load('svhn_cropped', split='train', shuffle_files=True)
+  train=tfds.load('svhn_cropped', split='train[:5%]', shuffle_files=True)
   train.download_and_prepare()
   train= tfds.as_numpy(train.as_dataset(split='train', batch_size=-1))
   X_train = train['image']
