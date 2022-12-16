@@ -42,7 +42,7 @@ for x in tf_config['cluster']['worker']:
 # tf_config['task']['index'] = int(sys.argv[1])
 
 os.environ['TF_CONFIG']=json.dumps(tf_config)
-# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 checkpoint_dir =config.checkpoint_dir
 if not os.path.exists(checkpoint_dir):
@@ -52,8 +52,8 @@ per_worker_batch_size = 32
 tf_config = json.loads(os.environ['TF_CONFIG'])
 
 
-# strategy = tf.distribute.MultiWorkerMirroredStrategy()
-strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
+strategy = tf.distribute.MultiWorkerMirroredStrategy()
+# strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
 # strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(
 #     communication=tf.distribute.experimental.CollectiveCommunication.AUTO,
 #     cluster_resolver=None 
