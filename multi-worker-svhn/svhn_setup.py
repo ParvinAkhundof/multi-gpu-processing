@@ -27,8 +27,7 @@ def svhn_train_dataset(batch_size):
       tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(batch_size)
   )
 
-def svhn_test_dataset():
-    batch_size = 32
+def svhn_test_dataset(batch_size):
 
     test = loadmat('../test_32x32.mat')
 
