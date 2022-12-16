@@ -53,7 +53,7 @@ tf_config = json.loads(os.environ['TF_CONFIG'])
 
 
 # strategy = tf.distribute.MultiWorkerMirroredStrategy()
-strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
+strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.RING)
 # strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(
 #     communication=tf.distribute.experimental.CollectiveCommunication.AUTO,
 #     cluster_resolver=None 
