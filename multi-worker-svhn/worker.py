@@ -28,13 +28,18 @@ def get_ip():
 tf_config=config.tf_config
 
 index=0
+cheef=0
 my_ip=get_ip()
 for x in tf_config['cluster']['worker']:
   if(x.split(':')[0]==my_ip):
     tf_config['task']['index'] = index
+    cheef=1
     print(index)
   index=index+1
 
+if cheef==0:
+  tf_config['task']['type'] = 'chief'
+  tf_config['task']['index'] = 0
 
 
 
@@ -63,21 +68,19 @@ num_workers = strategy.num_replicas_in_sync
 print("Number of devices: {}".format(strategy.num_replicas_in_sync))
 
 global_batch_size = per_worker_batch_size * num_workers
+multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size) ##SVHN
 
+# multi_worker_dataset = mnist_setup.mnist_dataset(global_batch_size)   ##MNIST
+
+options = tf.data.Options()
+options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.DATA
+multi_worker_dataset = multi_worker_dataset.with_options(options)
 
 
 with strategy.scope():
     
   multi_worker_model = make_or_restore.make_or_restore_model(checkpoint_dir) ##SVHN
   # multi_worker_model = mnist_setup.build_and_compile_cnn_model()  ##MNIST
-
-  multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size) ##SVHN
-
-  # multi_worker_dataset = mnist_setup.mnist_dataset(global_batch_size)   ##MNIST
-
-  options = tf.data.Options()
-  options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.DATA
-  multi_worker_dataset = multi_worker_dataset.with_options(options)
 
 # callbacks = [
     
