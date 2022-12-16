@@ -53,7 +53,7 @@ tf_config = json.loads(os.environ['TF_CONFIG'])
 
 
 # strategy = tf.distribute.MultiWorkerMirroredStrategy()
-strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.RING)
+strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
 # strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(
 #     communication=tf.distribute.experimental.CollectiveCommunication.AUTO,
 #     cluster_resolver=None 
@@ -67,9 +67,9 @@ multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size) ##SVHN
 
 # multi_worker_dataset = mnist_setup.mnist_dataset(global_batch_size)   ##MNIST
 
-options = tf.data.Options()
-options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.DATA
-multi_worker_dataset = multi_worker_dataset.with_options(options)
+# options = tf.data.Options()
+# options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.DATA
+# multi_worker_dataset = multi_worker_dataset.with_options(options)
 
 
 with strategy.scope():
