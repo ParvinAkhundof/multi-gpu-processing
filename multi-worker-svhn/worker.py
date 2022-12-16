@@ -42,7 +42,7 @@ for x in tf_config['cluster']['worker']:
 # tf_config['task']['index'] = int(sys.argv[1])
 
 os.environ['TF_CONFIG']=json.dumps(tf_config)
-# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 checkpoint_dir =config.checkpoint_dir
 if not os.path.exists(checkpoint_dir):
@@ -63,9 +63,9 @@ num_workers = strategy.num_replicas_in_sync
 print("Number of devices: {}".format(strategy.num_replicas_in_sync))
 
 global_batch_size = per_worker_batch_size * num_workers
-# multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size) ##SVHN
+multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size) ##SVHN
 
-multi_worker_dataset = mnist_setup.mnist_dataset(global_batch_size)   ##MNIST
+# multi_worker_dataset = mnist_setup.mnist_dataset(global_batch_size)   ##MNIST
 
 options = tf.data.Options()
 options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.DATA
@@ -74,8 +74,8 @@ multi_worker_dataset = multi_worker_dataset.with_options(options)
 
 with strategy.scope():
     
-  # multi_worker_model = make_or_restore.make_or_restore_model(checkpoint_dir) ##SVHN
-  multi_worker_model = mnist_setup.build_and_compile_cnn_model()  ##MNIST
+  multi_worker_model = make_or_restore.make_or_restore_model(checkpoint_dir) ##SVHN
+  # multi_worker_model = mnist_setup.build_and_compile_cnn_model()  ##MNIST
 
 # callbacks = [
     
@@ -93,9 +93,9 @@ elapsed_time = time.time() - start_time
 str_elapsed_time = time.strftime("%H : %M : %S", time.gmtime(elapsed_time))
 print(">> Finished. Time elapsed: {}.".format(str_elapsed_time))
 
-# test_dataset = svhn_setup.svhn_test_dataset()  ##SVHN
+test_dataset = svhn_setup.svhn_test_dataset()  ##SVHN
 
-# loss, acc = multi_worker_model.evaluate(test_dataset)
-# print("Model accuracy on test data is: {:6.3f}%".format(100 * acc))
+loss, acc = multi_worker_model.evaluate(test_dataset)
+print("Model accuracy on test data is: {:6.3f}%".format(100 * acc))
 
 
