@@ -53,7 +53,7 @@ checkpoint_dir =config.checkpoint_dir
 if not os.path.exists(checkpoint_dir):
     os.makedirs(checkpoint_dir)
 
-per_worker_batch_size = 32
+per_worker_batch_size = 64
 tf_config = json.loads(os.environ['TF_CONFIG'])
 
 
