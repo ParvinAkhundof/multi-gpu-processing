@@ -43,7 +43,7 @@ for x in tf_config['cluster']['worker']:
 
 os.environ['TF_CONFIG']=json.dumps(tf_config)
 # os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 checkpoint_dir =config.checkpoint_dir
 if not os.path.exists(checkpoint_dir):
