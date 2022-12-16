@@ -40,6 +40,7 @@ for x in tf_config['cluster']['worker']:
 if cheef==0:
   tf_config['task']['type'] = 'chief'
   tf_config['task']['index'] = 0
+  os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 
 
@@ -53,7 +54,7 @@ checkpoint_dir =config.checkpoint_dir
 if not os.path.exists(checkpoint_dir):
     os.makedirs(checkpoint_dir)
 
-per_worker_batch_size = 128
+per_worker_batch_size = 32
 tf_config = json.loads(os.environ['TF_CONFIG'])
 
 
