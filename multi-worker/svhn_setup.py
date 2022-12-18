@@ -35,7 +35,7 @@ def svhn_test_dataset(batch_size):
 
 def build_and_compile_cnn_model():
   model = keras.Sequential()
-  model.add(keras.Input(shape=(32, 32, 3)))  
+  model.add(keras.Input(shape=(32, 32, 1)))  
 
   model.add(keras.layers.Conv2D(32, 3, activation="relu"))
   model.add(keras.layers.Conv2D(32, 3, activation="relu"))
