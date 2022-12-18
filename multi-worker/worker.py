@@ -83,7 +83,7 @@ elapsed_time = time.time() - start_time
 str_elapsed_time = time.strftime("%H : %M : %S", time.gmtime(elapsed_time))
 print(">> Finished. Time elapsed: {}.".format(str_elapsed_time))
 
-# test_dataset = svhn_setup.svhn_test_dataset(per_worker_batch_size)  ##SVHN
+# test_dataset = svhn_setup.svhn_test_dataset(global_batch_size)  ##SVHN
 test_dataset = mnist_setup.mnist_dataset_test(global_batch_size)  ##MNIST
 
 loss, acc = multi_worker_model.evaluate(test_dataset)
