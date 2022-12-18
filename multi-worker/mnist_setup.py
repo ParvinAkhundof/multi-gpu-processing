@@ -30,7 +30,7 @@ def build_and_compile_cnn_model():
   # model.add(keras.layers.Dense(128, activation="relu"))
   # model.add(keras.layers.Dense(10, activation='softmax'))
 
-  # model.add(keras.layers.Conv2D(32, (3,3), activation="relu"))
+  model.add(keras.layers.Conv2D(32, (3,3), activation="relu"))
   # model.add(keras.layers.Conv2D(32, (3,3), activation="relu"))
   # model.add(keras.layers.MaxPooling2D(2,2))
   # model.add(keras.layers.Dropout(0.3))
