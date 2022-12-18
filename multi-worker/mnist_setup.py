@@ -2,7 +2,7 @@ import os
 import tensorflow as tf
 import numpy as np
 
-def mnist_dataset(batch_size):
+def mnist_dataset_train(batch_size):
   (x_train, y_train), _ = tf.keras.datasets.mnist.load_data()
   # The `x` arrays are in uint8 and have values in the [0, 255] range.
   # You need to convert them to float32 with values in the [0, 1] range.
@@ -10,6 +10,16 @@ def mnist_dataset(batch_size):
   y_train = y_train.astype(np.int64)
   train_dataset = tf.data.Dataset.from_tensor_slices(
       (x_train, y_train)).batch(batch_size)
+  return train_dataset
+
+def mnist_dataset_test(batch_size):
+  _, (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+  # The `x` arrays are in uint8 and have values in the [0, 255] range.
+  # You need to convert them to float32 with values in the [0, 1] range.
+  x_test = x_test / np.float32(255)
+  y_test = y_test.astype(np.int64)
+  train_dataset = tf.data.Dataset.from_tensor_slices(
+      (x_test, y_test)).batch(batch_size)
   return train_dataset
 
 def build_and_compile_cnn_model():
