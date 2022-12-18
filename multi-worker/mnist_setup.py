@@ -1,6 +1,6 @@
-import os
 import tensorflow as tf
 import numpy as np
+from tensorflow import keras
 
 def mnist_dataset_train(batch_size):
   (x_train, y_train), _ = tf.keras.datasets.mnist.load_data()
@@ -23,14 +23,15 @@ def mnist_dataset_test(batch_size):
   return train_dataset
 
 def build_and_compile_cnn_model():
-  model = tf.keras.Sequential([
-      tf.keras.layers.InputLayer(input_shape=(28, 28)),
-      tf.keras.layers.Reshape(target_shape=(28, 28, 1)),
-      tf.keras.layers.Conv2D(32, 3, activation='relu'),
-      tf.keras.layers.Flatten(),
-      tf.keras.layers.Dense(128, activation='relu'),
-      tf.keras.layers.Dense(10)
-  ])
+  model = keras.Sequential()
+  model.add(keras.Input(shape=(28, 28, 1)))  
+  model.add(keras.layers.Conv2D(32, 3, activation="relu"))
+  model.add(keras.layers.Flatten())
+  model.add(keras.layers.Dense(128, activation="relu"))
+  model.add(keras.layers.Dense(10, activation='softmax'))
+  
+
+  model.summary()
   model.compile(
       optimizer=tf.keras.optimizers.Adam(),
       loss=tf.keras.losses.SparseCategoricalCrossentropy(),

@@ -7,3 +7,4 @@ it is also possible to run for MultiWorkerMirrored Strategies.
 
 
 tfds-nightly
+ssh -Y -o StrictHostKeyChecking=no pc23
