@@ -21,7 +21,8 @@
 
 tf_config={
     'cluster': {'worker': [
-        '192.168.75.40:12345']},'task': {'type': 'worker', 'index': 0}
+        '192.168.75.40:12345',
+        '192.168.75.41:12345']},'task': {'type': 'worker', 'index': 0}
 }
 
 
