@@ -19,7 +19,7 @@ def mnist_dataset_test(batch_size):
   x_test = x_test / np.float32(255)
   y_test = y_test.astype(np.int64)
   train_dataset = tf.data.Dataset.from_tensor_slices(
-      (x_test, y_test))
+      (x_test, y_test)).batch(batch_size)
   return train_dataset
 
 def build_and_compile_cnn_model():
