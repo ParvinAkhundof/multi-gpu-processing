@@ -40,8 +40,8 @@ def mnist_dataset_train(batch_size,index,num_workers):
   print("end")
   print(data_size_end)
 
-  x_train=x_train[0:int(x_train.size/2)]
-  y_train=y_train[0:int(x_train.size/2)]
+  x_train=x_train[0:3010560000]
+  y_train=y_train[0:3010560000]
 
   print(num_workers)
   print(x_train.size)
