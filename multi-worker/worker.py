@@ -53,9 +53,7 @@ num_workers = strategy.num_replicas_in_sync
 print("Number of devices: {}".format(strategy.num_replicas_in_sync))
 
 global_batch_size = per_worker_batch_size * num_workers
-# multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size) ##SVHN
 
-multi_worker_dataset = mnist_setup.mnist_dataset_train(global_batch_size)   ##MNIST
 
 
 
@@ -64,7 +62,11 @@ with strategy.scope():
     
   # multi_worker_model = make_or_restore.make_or_restore_model(checkpoint_dir) ##SVHN
   multi_worker_model = mnist_setup.build_and_compile_cnn_model()  ##MNIST
-  
+
+  # multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size) ##SVHN
+
+  multi_worker_dataset = mnist_setup.mnist_dataset_train(global_batch_size)   ##MNIST
+
   options = tf.data.Options()
   options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.DATA
   multi_worker_dataset = multi_worker_dataset.with_options(options)
