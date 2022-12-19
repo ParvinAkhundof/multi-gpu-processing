@@ -25,6 +25,8 @@ def mnist_dataset_train(batch_size):
   x_train=np.concatenate((x_train, x_train), axis=0)
   y_train=np.concatenate((y_train, y_train), axis=0)
   
+  x_train=np.concatenate((x_train, x_train), axis=0)
+  y_train=np.concatenate((y_train, y_train), axis=0)
 
   train_dataset = tf.data.Dataset.from_tensor_slices(
       (x_train, y_train)).batch(batch_size)
