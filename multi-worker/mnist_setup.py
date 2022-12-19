@@ -25,9 +25,6 @@ def mnist_dataset_train(batch_size,index,num_workers):
   x_train=np.concatenate((x_train, x_train), axis=0)
   y_train=np.concatenate((y_train, y_train), axis=0)
   
-  x_train=np.concatenate((x_train, x_train), axis=0)
-  y_train=np.concatenate((y_train, y_train), axis=0)
-
 
 
 
