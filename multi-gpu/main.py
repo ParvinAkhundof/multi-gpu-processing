@@ -31,6 +31,11 @@ def run_training(epochs=1,train_dataset=0,strategy=0):
     #         filepath=checkpoint_dir + "/ckpt-{epoch}", save_freq="epoch"
     #     )
     # ]
+
+    options = tf.data.Options()
+    options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.DATA
+    train_dataset = train_dataset.with_options(options)
+
     model.fit(train_dataset)
     # model.fit(train_dataset,callbacks=callbacks,epochs=epochs)
     # model.fit(train_dataset,epochs=epochs,callbacks=callbacks,steps_per_epoch=100)
@@ -43,10 +48,10 @@ def run_training(epochs=1,train_dataset=0,strategy=0):
 
 # run_training(epochs=23)
 
-strategy = tf.distribute.OneDeviceStrategy("/device:GPU:0")
+# strategy = tf.distribute.OneDeviceStrategy("/device:GPU:0")
 # strategy = tf.distribute.MirroredStrategy(["/device:CPU:0"])  
 # strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.AUTO)
-# strategy = tf.distribute.MirroredStrategy(["/device:CPU:0","/device:GPU:0"]) 
+strategy = tf.distribute.MirroredStrategy(["/device:CPU:0","/device:GPU:0"]) 
 # strategy = tf.distribute.MirroredStrategy() 
 print("Number of devices: {}".format(strategy.num_replicas_in_sync))
 
