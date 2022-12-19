@@ -1,18 +1,11 @@
-import nvidia_smi
-import time
-
-for x in  range(10):
-    nvidia_smi.nvmlInit()
-
-    deviceCount = nvidia_smi.nvmlDeviceGetCount()
-    print(deviceCount)
-    for i in range(deviceCount):
-        handle = nvidia_smi.nvmlDeviceGetHandleByIndex(i)
-        info = nvidia_smi.nvmlDeviceGetMemoryInfo(handle)
-        print("Device {}: {}, Memory : ({:.2f}% free): {}(total), {} (free), {} (used)".format(i, nvidia_smi.nvmlDeviceGetName(handle), 100*info.free/info.total, info.total, info.free, info.used))
-
-    nvidia_smi.nvmlShutdown()
-    time.sleep(1)
+slices=3
+size=73257
+model=1
+for x in range(slices):
+    start=int(size/slices*x)
+    end=int(size/slices*(x+1))
+    print(x )
+    print(end)
 
 # import nvidia_smi
 # nvidia_smi.nvmlInit()
