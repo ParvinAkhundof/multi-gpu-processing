@@ -8,3 +8,5 @@ it is also possible to run for MultiWorkerMirrored Strategies.
 
 tfds-nightly
 ssh -Y -o StrictHostKeyChecking=no pc23
+
+https://silpara.medium.com/check-gpu-memory-usage-from-python-ccca503322ea

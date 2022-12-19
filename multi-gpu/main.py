@@ -43,9 +43,9 @@ def run_training(epochs=1,train_dataset=0,strategy=0):
 
 # run_training(epochs=23)
 
-# strategy = tf.distribute.OneDeviceStrategy("/device:GPU:0")
+strategy = tf.distribute.OneDeviceStrategy("/device:GPU:0")
 # strategy = tf.distribute.MirroredStrategy(["/device:CPU:0"])  
-strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.AUTO)
+# strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.AUTO)
 # strategy = tf.distribute.MirroredStrategy(["/device:CPU:0","/device:GPU:0"]) 
 # strategy = tf.distribute.MirroredStrategy() 
 print("Number of devices: {}".format(strategy.num_replicas_in_sync))
@@ -54,7 +54,7 @@ print("Number of devices: {}".format(strategy.num_replicas_in_sync))
 global_batch_size = per_worker_batch_size*strategy.num_replicas_in_sync
 
 print("!!!! global Batch Size = "+format(global_batch_size))
-slices=1
+slices=3
 size=73257
 model=1
 for x in range(slices):
