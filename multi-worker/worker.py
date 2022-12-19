@@ -60,10 +60,11 @@ strategy = tf.distribute.MultiWorkerMirroredStrategy(communication_options=commu
 num_workers = strategy.num_replicas_in_sync
 print("Number of devices: {}".format(strategy.num_replicas_in_sync))
 
-global_batch_size = per_worker_batch_size * num_workers
+# global_batch_size = per_worker_batch_size * num_workers
+global_batch_size = per_worker_batch_size 
 # multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size) ##SVHN
 
-multi_worker_dataset = mnist_setup.mnist_dataset_train(global_batch_size)   ##MNIST
+multi_worker_dataset = mnist_setup.mnist_dataset_train(global_batch_size,index,num_workers)   ##MNIST
 
 options = tf.data.Options()
 options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.DATA

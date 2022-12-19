@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 from tensorflow import keras
 
-def mnist_dataset_train(batch_size):
+def mnist_dataset_train(batch_size,index,num_workers):
   (x_train, y_train), _ = tf.keras.datasets.mnist.load_data()
   # The `x` arrays are in uint8 and have values in the [0, 255] range.
   # You need to convert them to float32 with values in the [0, 1] range.
@@ -27,6 +27,18 @@ def mnist_dataset_train(batch_size):
   
   x_train=np.concatenate((x_train, x_train), axis=0)
   y_train=np.concatenate((y_train, y_train), axis=0)
+
+
+
+  x_train=np.concatenate((x_train, x_train), axis=0)
+  y_train=np.concatenate((y_train, y_train), axis=0)
+
+  data_size_start=int(x_train.size/num_workers*index)
+  data_size_end=int(x_train.size/num_workers*(index+1))
+
+
+  X_train=X_train[data_size_start:data_size_end]
+  y_train=y_train[data_size_start:data_size_end]
 
   print("size!!!!!!!!!!!!")
   print(x_train.size)
