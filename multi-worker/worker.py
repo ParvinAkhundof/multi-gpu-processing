@@ -31,9 +31,10 @@ my_ip=get_ip()
 for x in tf_config['cluster']['worker']:
   if(x.split(':')[0]==my_ip):
     tf_config['task']['index'] = index
+    break
   index=index+1
 
-
+print(index)
 os.environ['TF_CONFIG']=json.dumps(tf_config)
 # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
