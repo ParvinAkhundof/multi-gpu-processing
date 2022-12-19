@@ -60,7 +60,7 @@ multi_worker_dataset = mnist_setup.mnist_dataset_train(global_batch_size)   ##MN
 options = tf.data.Options()
 options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.OFF
 multi_worker_dataset = multi_worker_dataset.with_options(options)
-# multi_worker_dataset= tf.experimental_distribute_datasets_from_function(multi_worker_dataset)
+multi_worker_dataset= multi_worker_dataset.batch(global_batch_size)
 
 
 with strategy.scope():
