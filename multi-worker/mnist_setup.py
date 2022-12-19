@@ -40,7 +40,7 @@ def mnist_dataset_train(batch_size,index,num_workers):
   x_train=x_train[data_size_start:data_size_end]
   y_train=y_train[data_size_start:data_size_end]
 
-  print("size!!!!!!!!!!!!-"+num_workers)
+  print(num_workers)
   print(x_train.size)
 
   train_dataset = tf.data.Dataset.from_tensor_slices(
