@@ -47,8 +47,8 @@ def mnist_dataset_test(batch_size,index,num_workers):
   x_test = x_test / np.float32(255)
   y_test = y_test.astype(np.int64)
   
-  # x_test=np.array_split(x_test, num_workers)[index]
-  # y_test=np.array_split(y_test, num_workers)[index]
+  x_test=np.array_split(x_test, num_workers)[index]
+  y_test=np.array_split(y_test, num_workers)[index]
 
   train_dataset = tf.data.Dataset.from_tensor_slices(
       (x_test, y_test)).batch(batch_size)
