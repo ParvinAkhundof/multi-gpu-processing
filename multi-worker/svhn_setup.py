@@ -4,7 +4,7 @@ from tensorflow import keras
 import numpy as np
 import tensorflow_datasets as tfds
 
-def svhn_train_dataset(batch_size):
+def svhn_train_dataset(batch_size,index,num_workers):
   train = loadmat('../train_32x32.mat')
   X_train = train['X']
   y_train = train['y']
@@ -12,13 +12,14 @@ def svhn_train_dataset(batch_size):
   y_train = y_train[:,0]
   y_train[y_train==10] = 0
 
-  
+#   X_train=np.array_split(X_train, num_workers)[index]
+#   y_train=np.array_split(y_train, num_workers)[index]
 
   return (
       tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(batch_size)
   )
 
-def svhn_test_dataset(batch_size):
+def svhn_test_dataset(batch_size,index,num_workers):
 
     test = loadmat('../test_32x32.mat')
 
@@ -28,7 +29,8 @@ def svhn_test_dataset(batch_size):
     y_test = y_test[:,0]
     y_test[y_test==10] = 0
 
-    
+    X_test=np.array_split(X_test, num_workers)[index]
+    y_test=np.array_split(y_test, num_workers)[index]
 
     return (
         tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(batch_size)
