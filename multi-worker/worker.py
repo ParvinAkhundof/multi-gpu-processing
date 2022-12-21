@@ -92,8 +92,8 @@ elapsed_time = time.time() - start_time
 str_elapsed_time = time.strftime("%H : %M : %S", time.gmtime(elapsed_time))
 print(">> Finished. Time elapsed: {}.".format(str_elapsed_time))
 
-# test_dataset = svhn_setup.svhn_test_dataset(global_batch_size)  ##SVHN
-test_dataset = mnist_setup.mnist_dataset_test(global_batch_size)  ##MNIST
+# test_dataset = svhn_setup.svhn_test_dataset(global_batch_size,index,num_workers)  ##SVHN
+test_dataset = mnist_setup.mnist_dataset_test(global_batch_size,index,num_workers)  ##MNIST
 
 loss, acc = multi_worker_model.evaluate(test_dataset)
 print("Model accuracy on test data is: {:6.3f}%".format(100 * acc))
