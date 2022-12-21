@@ -25,8 +25,8 @@ def mnist_dataset_train(batch_size,index,num_workers):
   x_train=np.concatenate((x_train, x_train), axis=0)
   y_train=np.concatenate((y_train, y_train), axis=0)
 
-  x_train=np.concatenate((x_train, x_train), axis=0)
-  y_train=np.concatenate((y_train, y_train), axis=0)
+  # x_train=np.concatenate((x_train, x_train), axis=0)
+  # y_train=np.concatenate((y_train, y_train), axis=0)
 
   data_size_start=int(x_train.size/num_workers*index)
   data_size_end=int(x_train.size/num_workers*(index+1))
@@ -35,8 +35,8 @@ def mnist_dataset_train(batch_size,index,num_workers):
   print(data_size_start)
   print("end")
   print(data_size_end)
-  data_size_start=0
-  data_size_end=1505280000
+  # data_size_start=0
+  # data_size_end=1505280000
 
   x_train=x_train[data_size_start:data_size_end]
   y_train=y_train[data_size_start:data_size_end]
