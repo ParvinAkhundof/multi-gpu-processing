@@ -29,8 +29,8 @@ def svhn_test_dataset(batch_size,index,num_workers):
     y_test = y_test[:,0]
     y_test[y_test==10] = 0
 
-    X_test=np.array_split(X_test, num_workers)[0]
-    y_test=np.array_split(y_test, num_workers)[0]
+    X_test=np.array_split(X_test, num_workers)[index]
+    y_test=np.array_split(y_test, num_workers)[index]
 
     return (
         tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(batch_size)
