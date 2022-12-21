@@ -32,7 +32,7 @@ def mnist_dataset_train(batch_size,index,num_workers):
   # data_size_end=(index+1)*int(x_train.size/num_workers)
 
   data_size_start=752640000
-  data_size_end=1505280000
+  data_size_end=1505280000-1
 
   
   print(x_train.size)
