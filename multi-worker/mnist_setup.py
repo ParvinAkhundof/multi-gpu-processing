@@ -10,23 +10,23 @@ def mnist_dataset_train(batch_size,index,num_workers):
   y_train = y_train.astype(np.int64)
 
 
-  x_train=np.concatenate((x_train, x_train), axis=0)
-  y_train=np.concatenate((y_train, y_train), axis=0)
+  # x_train=np.concatenate((x_train, x_train), axis=0)
+  # y_train=np.concatenate((y_train, y_train), axis=0)
 
-  x_train=np.concatenate((x_train, x_train), axis=0)
-  y_train=np.concatenate((y_train, y_train), axis=0)
+  # x_train=np.concatenate((x_train, x_train), axis=0)
+  # y_train=np.concatenate((y_train, y_train), axis=0)
 
-  x_train=np.concatenate((x_train, x_train), axis=0)
-  y_train=np.concatenate((y_train, y_train), axis=0)
+  # x_train=np.concatenate((x_train, x_train), axis=0)
+  # y_train=np.concatenate((y_train, y_train), axis=0)
 
-  x_train=np.concatenate((x_train, x_train), axis=0)
-  y_train=np.concatenate((y_train, y_train), axis=0)
+  # x_train=np.concatenate((x_train, x_train), axis=0)
+  # y_train=np.concatenate((y_train, y_train), axis=0)
 
-  x_train=np.concatenate((x_train, x_train), axis=0)
-  y_train=np.concatenate((y_train, y_train), axis=0)
+  # x_train=np.concatenate((x_train, x_train), axis=0)
+  # y_train=np.concatenate((y_train, y_train), axis=0)
 
-  x_train=np.concatenate((x_train, x_train), axis=0)
-  y_train=np.concatenate((y_train, y_train), axis=0)
+  # x_train=np.concatenate((x_train, x_train), axis=0)
+  # y_train=np.concatenate((y_train, y_train), axis=0)
 
 
 
@@ -40,12 +40,16 @@ def mnist_dataset_train(batch_size,index,num_workers):
       (x_train, y_train)).batch(batch_size)
   return train_dataset
 
-def mnist_dataset_test(batch_size):
+def mnist_dataset_test(batch_size,index,num_workers):
   _, (x_test, y_test) = tf.keras.datasets.mnist.load_data()
   # The `x` arrays are in uint8 and have values in the [0, 255] range.
   # You need to convert them to float32 with values in the [0, 1] range.
   x_test = x_test / np.float32(255)
   y_test = y_test.astype(np.int64)
+  
+  x_train=np.array_split(x_train, num_workers)[index]
+  y_train=np.array_split(y_train, num_workers)[index]
+
   train_dataset = tf.data.Dataset.from_tensor_slices(
       (x_test, y_test)).batch(batch_size)
   return train_dataset
