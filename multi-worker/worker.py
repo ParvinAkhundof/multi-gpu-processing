@@ -82,7 +82,7 @@ with strategy.scope():
 start_time = time.time()
 
 # multi_worker_model.fit(multi_worker_dataset,callbacks=callbacks)
-multi_worker_model.fit(multi_worker_dataset)
+multi_worker_model.fit(multi_worker_dataset,epoch=2)
 
 elapsed_time = time.time() - start_time
 str_elapsed_time = time.strftime("%H : %M : %S", time.gmtime(elapsed_time))
