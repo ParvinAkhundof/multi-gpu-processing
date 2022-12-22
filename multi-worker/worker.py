@@ -49,8 +49,8 @@ tf_config = json.loads(os.environ['TF_CONFIG'])
 
 
 
-# strategy = tf.distribute.MultiWorkerMirroredStrategy()
-strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
+strategy = tf.distribute.MultiWorkerMirroredStrategy()
+# strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
 
 
 num_workers = strategy.num_replicas_in_sync
@@ -58,9 +58,9 @@ print("Number of devices: {}".format(strategy.num_replicas_in_sync))
 
 global_batch_size = per_worker_batch_size * num_workers
 # global_batch_size = per_worker_batch_size 
-multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size,index,num_workers) ##SVHN
+# multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size,index,num_workers) ##SVHN
 
-# multi_worker_dataset = mnist_setup.mnist_dataset_train(global_batch_size,index,num_workers)   ##MNIST
+multi_worker_dataset = mnist_setup.mnist_dataset_train(global_batch_size,index,num_workers)   ##MNIST
 
 # options = tf.data.Options()
 # options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.DATA
@@ -69,8 +69,8 @@ multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size,index,num
 
 with strategy.scope():
     
-  multi_worker_model = make_or_restore.make_or_restore_model(checkpoint_dir) ##SVHN
-#   multi_worker_model = mnist_setup.build_and_compile_cnn_model()  ##MNIST
+#   multi_worker_model = make_or_restore.make_or_restore_model(checkpoint_dir) ##SVHN
+  multi_worker_model = mnist_setup.build_and_compile_cnn_model()  ##MNIST
 
 # callbacks = [
     
@@ -88,8 +88,8 @@ elapsed_time = time.time() - start_time
 str_elapsed_time = time.strftime("%H : %M : %S", time.gmtime(elapsed_time))
 print(">> Finished. Time elapsed: {}.".format(str_elapsed_time))
 
-test_dataset = svhn_setup.svhn_test_dataset(global_batch_size,index,num_workers)  ##SVHN
-# test_dataset = mnist_setup.mnist_dataset_test(global_batch_size,index,num_workers)  ##MNIST
+# test_dataset = svhn_setup.svhn_test_dataset(global_batch_size,index,num_workers)  ##SVHN
+test_dataset = mnist_setup.mnist_dataset_test(global_batch_size,index,num_workers)  ##MNIST
 
 loss, acc = multi_worker_model.evaluate(test_dataset)
 print("Model accuracy on test data is: {:6.3f}%".format(100 * acc))
