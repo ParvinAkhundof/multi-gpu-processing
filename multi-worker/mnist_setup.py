@@ -10,23 +10,23 @@ def mnist_dataset_train(batch_size,index,num_workers):
   y_train = y_train.astype(np.int64)
 
 
-  # x_train=np.concatenate((x_train, x_train), axis=0)
-  # y_train=np.concatenate((y_train, y_train), axis=0)
+  x_train=np.concatenate((x_train, x_train), axis=0)
+  y_train=np.concatenate((y_train, y_train), axis=0)
 
-  # x_train=np.concatenate((x_train, x_train), axis=0)
-  # y_train=np.concatenate((y_train, y_train), axis=0)
+  x_train=np.concatenate((x_train, x_train), axis=0)
+  y_train=np.concatenate((y_train, y_train), axis=0)
 
-  # x_train=np.concatenate((x_train, x_train), axis=0)
-  # y_train=np.concatenate((y_train, y_train), axis=0)
+  x_train=np.concatenate((x_train, x_train), axis=0)
+  y_train=np.concatenate((y_train, y_train), axis=0)
 
-  # x_train=np.concatenate((x_train, x_train), axis=0)
-  # y_train=np.concatenate((y_train, y_train), axis=0)
+  x_train=np.concatenate((x_train, x_train), axis=0)
+  y_train=np.concatenate((y_train, y_train), axis=0)
 
-  # x_train=np.concatenate((x_train, x_train), axis=0)
-  # y_train=np.concatenate((y_train, y_train), axis=0)
+  x_train=np.concatenate((x_train, x_train), axis=0)
+  y_train=np.concatenate((y_train, y_train), axis=0)
 
-  # x_train=np.concatenate((x_train, x_train), axis=0)
-  # y_train=np.concatenate((y_train, y_train), axis=0)
+  x_train=np.concatenate((x_train, x_train), axis=0)
+  y_train=np.concatenate((y_train, y_train), axis=0)
 
 
   x_train=np.array_split(x_train, num_workers)[index]
