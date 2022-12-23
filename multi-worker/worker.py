@@ -68,7 +68,7 @@ num_workers = strategy.num_replicas_in_sync
 print("Number of devices: {}".format(strategy.num_replicas_in_sync))
 
 # global_batch_size = per_worker_batch_size * num_workers
-global_batch_size = per_worker_batch_size 
+global_batch_size = per_worker_batch_size *2
 multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size,index,num_workers) ##SVHN
 
 # multi_worker_dataset = mnist_setup.mnist_dataset_train(global_batch_size,index,num_workers)   ##MNIST
