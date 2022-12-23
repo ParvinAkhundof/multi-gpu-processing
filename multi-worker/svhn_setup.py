@@ -47,7 +47,7 @@ def build_and_compile_cnn_model():
   model.add(keras.layers.Conv2D(9932, 3, activation="relu"))
   model.add(keras.layers.MaxPooling2D(2))
   model.add(keras.layers.Dropout(0.3))
-  model.add(keras.layers.Conv2D(64, 3, activation="relu"))
+  model.add(keras.layers.Conv2D(964, 3, activation="relu"))
   model.add(keras.layers.Conv2D(64, 3, activation="relu"))
   model.add(keras.layers.MaxPooling2D(2))
   model.add(keras.layers.Dropout(0.3))
