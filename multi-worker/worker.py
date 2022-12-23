@@ -45,7 +45,7 @@ if not os.path.exists(checkpoint_dir):
 per_worker_batch_size = 32
 tf_config = json.loads(os.environ['TF_CONFIG'])
 
-
+tf.config.experimental.set_memory_growth(tf.config.list_physical_devices('GPU'), True)
 
 
 
