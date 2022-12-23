@@ -12,8 +12,8 @@ def svhn_train_dataset(batch_size,index,num_workers):
   y_train = y_train[:,0]
   y_train[y_train==10] = 0
 
-  X_train=np.array_split(X_train, num_workers)[index]
-  y_train=np.array_split(y_train, num_workers)[index]
+#   X_train=np.array_split(X_train, num_workers)[index]
+#   y_train=np.array_split(y_train, num_workers)[index]
 
   return (
       tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(batch_size)
