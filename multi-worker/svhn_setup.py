@@ -12,8 +12,8 @@ def svhn_train_dataset(batch_size,index,num_workers):
   y_train = y_train[:,0]
   y_train[y_train==10] = 0
 
-#   X_train=np.array_split(X_train, num_workers)[index]
-#   y_train=np.array_split(y_train, num_workers)[index]
+  X_train=np.array_split(X_train, num_workers)[index]
+  y_train=np.array_split(y_train, num_workers)[index]
 
   return (
       tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(batch_size)
@@ -44,10 +44,10 @@ def build_and_compile_cnn_model():
   model.add(keras.Input(shape=(32, 32, 3)))  
 
   model.add(keras.layers.Conv2D(32, 3, activation="relu"))
-  model.add(keras.layers.Conv2D(9932, 3, activation="relu"))
+  model.add(keras.layers.Conv2D(32, 3, activation="relu"))
   model.add(keras.layers.MaxPooling2D(2))
   model.add(keras.layers.Dropout(0.3))
-  model.add(keras.layers.Conv2D(964, 3, activation="relu"))
+  model.add(keras.layers.Conv2D(64, 3, activation="relu"))
   model.add(keras.layers.Conv2D(64, 3, activation="relu"))
   model.add(keras.layers.MaxPooling2D(2))
   model.add(keras.layers.Dropout(0.3))
