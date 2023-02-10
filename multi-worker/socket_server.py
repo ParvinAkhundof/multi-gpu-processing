@@ -103,6 +103,8 @@ while True:
         print(return_value)
         if(return_value==1):
             worker.run_worker(my_ip)
+            break
+        
 
 
 
