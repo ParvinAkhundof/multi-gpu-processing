@@ -98,7 +98,7 @@ while True:
 
     # th.append(Thread(target=listener, args = (client,address)).start())
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(listener, (client,address))
+        future = executor.submit(listener, args=(client,address))
         return_value = future.result()
         print(return_value)
 
