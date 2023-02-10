@@ -52,14 +52,13 @@ try:
                 # print(repr(data))
                 if(data != b'start'):
                     ip_list.append(data.decode('ascii')+":12345")
-                    tf_config['cluster']['worker']=ip_list
-                    f = open('tf_config.txt', 'w') 
-                    f.write(''+json.dumps(tf_config))
                     with clients_lock:
                         for c in clients:
                             c.sendall(str.encode(','.join(ip_list)))
                 else:
-                    
+                    tf_config['cluster']['worker']=ip_list
+                    f = open('tf_config.txt', 'w') 
+                    f.write(''+json.dumps(tf_config))
                     with clients_lock:
                         for c in clients:
                             c.sendall(data)
