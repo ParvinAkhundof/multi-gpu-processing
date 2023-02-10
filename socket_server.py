@@ -1,5 +1,4 @@
 import socket
-import worker
 import json
 
 def get_ip():
@@ -67,7 +66,6 @@ try:
             f.write(''+json.dumps(tf_config))
             s.close()
             
-            
                             
                         
                     
@@ -91,10 +89,11 @@ try:
     while True:
         print("Server is listening for connections...")
         client, address = s.accept()
+        print(len(th))
 
         th.append(Thread(target=listener, args = (s,client,address)).start())
 
     
 except:
-    worker.run_worker(my_ip)
+    print("Error!!")
 

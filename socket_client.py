@@ -1,6 +1,5 @@
 import socket
 import time
-import worker
 
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -83,7 +82,7 @@ while (True):
         iplist=data.decode('ascii')
 
 
-socketObject.close()
+# socketObject.close()
 
 # tf_config={
 #     'cluster': {
@@ -92,4 +91,3 @@ socketObject.close()
 # }
 # tf_config['cluster']['worker']=iplist.split(",")
 # print(tf_config)
-worker.run_worker(my_ip)
