@@ -65,8 +65,8 @@ try:
         print(tf_config)
         f = open('tf_config.txt', 'w') 
         f.write(''+json.dumps(tf_config))
-        x=1/0
-        # worker.run_worker(my_ip)
+        # x=1/0
+        worker.run_worker(my_ip)
         
                         
                     
