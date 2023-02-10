@@ -36,12 +36,12 @@ clients_lock = threading.Lock()
 ip_list=[]
 ip_list.append(my_ip+":12345")
 
-try:
-    def listener(client, address):
-        print("Accepted connection from: ", address)
-        with clients_lock:
-            clients.add(client)
-    # try:
+
+def listener(client, address):
+    print("Accepted connection from: ", address)
+    with clients_lock:
+        clients.add(client)
+    try:
         data=""    
         while data != b'start':
             data = client.recv(1024)
@@ -67,35 +67,41 @@ try:
         print(tf_config)
         
         # x=1/0
-        worker.run_worker(my_ip)
+        # worker.run_worker(my_ip)
+        return "test1"
         
                         
                     
                 
                 
-    # finally:
-    #     with clients_lock:
-    #         clients.remove(client)
-    #         client.close()
-                
+    finally:
+        with clients_lock:
+            clients.remove(client)
+            client.close()
+            
 
-    host = my_ip
-    port = 5000
+host = my_ip
+port = 5000
 
 
-    s = socket.socket()
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    s.bind((host,port))
-    s.listen(125)
-    th = []
+s = socket.socket()
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+s.bind((host,port))
+s.listen(125)
+# th = []
 
-    while True:
-        print("Server is listening for connections...")
-        client, address = s.accept()
+import concurrent.futures
 
-        th.append(Thread(target=listener, args = (client,address)).start())
+while True:
+    print("Server is listening for connections...")
+    client, address = s.accept()
 
-    
-except:
-    worker.run_worker(my_ip)
+    # th.append(Thread(target=listener, args = (client,address)).start())
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future = executor.submit(listener, (client,address))
+        return_value = future.result()
+        print(return_value)
+
+
+
 
