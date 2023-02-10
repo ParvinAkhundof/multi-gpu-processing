@@ -37,7 +37,7 @@ ip_list=[]
 ip_list.append(my_ip+":12345")
 
 try:
-    def listener(s,client, address):
+    def listener(client, address):
         print("Accepted connection from: ", address)
         with clients_lock:
             clients.add(client)
@@ -65,7 +65,7 @@ try:
             print(tf_config)
             f = open('tf_config.txt', 'w') 
             f.write(''+json.dumps(tf_config))
-            s.close()
+            x=1/0
             
             
                             
@@ -92,7 +92,7 @@ try:
         print("Server is listening for connections...")
         client, address = s.accept()
 
-        th.append(Thread(target=listener, args = (s,client,address)).start())
+        th.append(Thread(target=listener, args = (client,address)).start())
 
     
 except:
