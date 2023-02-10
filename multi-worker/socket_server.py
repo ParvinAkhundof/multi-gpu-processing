@@ -41,41 +41,41 @@ try:
         print("Accepted connection from: ", address)
         with clients_lock:
             clients.add(client)
-        try:
-            data=""    
-            while data != b'start':
-                data = client.recv(1024)
-                
-                if not data:
-                    break
+    # try:
+        data=""    
+        while data != b'start':
+            data = client.recv(1024)
+            
+            if not data:
+                break
+            else:
+                print(repr(data))
+                if(data != b'start'):
+                    ip_list.append(data.decode('ascii')+":12345")
+                    with clients_lock:
+                        for c in clients:
+                            c.sendall(str.encode(','.join(ip_list)))
                 else:
-                    print(repr(data))
-                    if(data != b'start'):
-                        ip_list.append(data.decode('ascii')+":12345")
-                        with clients_lock:
-                            for c in clients:
-                                c.sendall(str.encode(','.join(ip_list)))
-                    else:
-                        
-                        with clients_lock:
-                            for c in clients:
-                                c.sendall(data)
-            
-            tf_config['cluster']['worker']=ip_list
-            print(tf_config)
-            f = open('tf_config.txt', 'w') 
-            f.write(''+json.dumps(tf_config))
-            # x=1/0
-            worker.run_worker(my_ip)
-            
-                            
+                    
+                    with clients_lock:
+                        for c in clients:
+                            c.sendall(data)
+        
+        tf_config['cluster']['worker']=ip_list
+        print(tf_config)
+        f = open('tf_config.txt', 'w') 
+        f.write(''+json.dumps(tf_config))
+        x=1/0
+        # worker.run_worker(my_ip)
+        
                         
                     
-                    
-        finally:
-            with clients_lock:
-                clients.remove(client)
-                client.close()
+                
+                
+    # finally:
+    #     with clients_lock:
+    #         clients.remove(client)
+    #         client.close()
                 
 
     host = my_ip
