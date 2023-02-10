@@ -68,7 +68,7 @@ def listener(client):
         
         # x=1/0
         # worker.run_worker(my_ip)
-        return "test1"
+        return 1
         
                         
                     
@@ -101,6 +101,8 @@ while True:
         future = executor.submit(listener, client)
         return_value = future.result()
         print(return_value)
+        if(return_value==1):
+            worker.run_worker(my_ip)
 
 
 
