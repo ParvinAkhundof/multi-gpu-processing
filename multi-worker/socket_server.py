@@ -37,8 +37,8 @@ ip_list=[]
 ip_list.append(my_ip+":12345")
 
 
-def listener(client, address):
-    print("Accepted connection from: ", address)
+def listener(client):
+    
     with clients_lock:
         clients.add(client)
     try:
@@ -95,10 +95,10 @@ import concurrent.futures
 while True:
     print("Server is listening for connections...")
     client, address = s.accept()
-
-    # th.append(Thread(target=listener, args = (client,address)).start())
+    print("Accepted connection from: ", address)
+    # th.append(Thread(target=listener, args = (client)).start())
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        future = executor.submit(listener, args=(client,address))
+        future = executor.submit(listener, client)
         return_value = future.result()
         print(return_value)
 
