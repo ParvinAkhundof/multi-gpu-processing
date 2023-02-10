@@ -65,14 +65,15 @@ try:
             print(tf_config)
             f = open('tf_config.txt', 'w') 
             f.write(''+json.dumps(tf_config))
-            x=1/0
-            
+            with clients_lock:
+                for c in clients:
+                    c.close()
             
                             
                         
                     
                     
-        finally:
+        except:
             with clients_lock:
                 clients.remove(client)
                 client.close()
