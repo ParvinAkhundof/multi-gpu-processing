@@ -55,9 +55,9 @@ try:
                     tf_config['cluster']['worker']=ip_list
                     f = open('tf_config.txt', 'w') 
                     f.write(''+json.dumps(tf_config))
-                    # with clients_lock:
-                    #     for c in clients:
-                    #         c.sendall(str.encode(','.join(ip_list)))
+                    with clients_lock:
+                        for c in clients:
+                            c.sendall(str.encode(','.join(ip_list)))
                 else:
                     
                     with clients_lock:
@@ -67,7 +67,6 @@ try:
         
         print(tf_config)
         
-       
         # x=1/0
         worker.run_worker(my_ip)
         
