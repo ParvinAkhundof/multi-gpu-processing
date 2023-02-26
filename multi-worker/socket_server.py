@@ -1,5 +1,5 @@
 import socket
-import worker
+# import worker
 import json
 
 def get_ip():
@@ -120,4 +120,4 @@ while True:
 
 s.close()
 
-worker.run_worker(my_ip)
+# worker.run_worker(my_ip)
