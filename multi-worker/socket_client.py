@@ -85,11 +85,11 @@ while (True):
 
 socketObject.close()
 
-# tf_config={
-#     'cluster': {
-#         'worker': ['192.168.75.40:12345','192.168.75.41:12345','192.168.75.42:12345','192.168.75.43:12345']},
-#     'task': {'type': 'worker', 'index': 0}
-# }
-# tf_config['cluster']['worker']=iplist.split(",")
+tf_config={
+    'cluster': {
+        'worker': ['192.168.75.40:12345','192.168.75.41:12345','192.168.75.42:12345','192.168.75.43:12345']},
+    'task': {'type': 'worker', 'index': 0}
+}
+tf_config['cluster']['worker']=iplist.split(",")
 # print(tf_config)
-worker.run_worker(my_ip)
+worker.run_worker(my_ip,tf_config)

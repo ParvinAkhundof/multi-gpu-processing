@@ -66,7 +66,7 @@ def listener(client,address):
         
         print(tf_config)
         
-        client.connect((my_ip, 5000))
+        # client.connect((my_ip, 5000))
 
         
                         
@@ -94,18 +94,18 @@ th = []
 while True:
     print("Server is listening for connections...")
     client, address = s.accept()
-    print(address)
-    if(str(address).split(",")[0].split("'")[1]==str(my_ip)):
-        # worker.run_worker(my_ip)
-        # print("Running")
-        break
+    # print(address)
+    # if(str(address).split(",")[0].split("'")[1]==str(my_ip)):
+    #     # worker.run_worker(my_ip)
+    #     # print("Running")
+    #     break
     
-    else:
-        print("Accepted connection from: ", address)
-        th.append(Thread(target=listener, args = (client,address)).start())
+    # else:
+    #     print("Accepted connection from: ", address)
+    #     th.append(Thread(target=listener, args = (client,address)).start())
 
-
-    # th.append(Thread(target=listener, args = (client)).start())
+    print("Accepted connection from: ", address)
+    th.append(Thread(target=listener, args = (client,address)).start())
     
 
     # with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -118,6 +118,6 @@ while True:
     #         break
         
 
-s.close()
+# s.close()
 
 # worker.run_worker(my_ip)

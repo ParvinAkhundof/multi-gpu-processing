@@ -11,7 +11,7 @@ import mnist_setup
 
 import socket
 
-def run_worker(my_ip):
+def run_worker(my_ip,config):
 
   ##########
 
@@ -35,9 +35,9 @@ def run_worker(my_ip):
   #     return IP
 
 
-  f = open("tf_config.txt", "r")
-  tf_config=json.loads(f.read())
-
+  # f = open("tf_config.txt", "r")
+  # tf_config=json.loads(f.read())
+  tf_config=json.loads(config)
   print(tf_config)
 
   index=0
