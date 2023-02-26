@@ -94,8 +94,9 @@ import concurrent.futures
 while True:
     print("Server is listening for connections...")
     client, address = s.accept()
+    print(address)
     if(str(address).split(",")[0].split("'")[1]==str(my_ip)):
-        break
+        worker.run_worker(my_ip)
     
     else:
         print("Accepted connection from: ", address)
@@ -111,5 +112,5 @@ while True:
         
 
 
-worker.run_worker(my_ip)
+
 
