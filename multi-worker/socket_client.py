@@ -48,7 +48,7 @@ bytes = str.encode(HTTPMessage)
 socketObject.sendall(bytes)
 
 
-
+print (len(sys.argv))
 
 
 
