@@ -43,7 +43,7 @@ def build_and_compile_cnn_model():
   model = keras.Sequential()
   model.add(keras.Input(shape=(32, 32, 3)))  
 
-  model.add(keras.layers.Conv2D(999, 3, activation="relu"))
+  model.add(keras.layers.Conv2D(1990, 3, activation="relu"))
   model.add(keras.layers.Conv2D(32, 3, activation="relu"))
   model.add(keras.layers.MaxPooling2D(2))
   model.add(keras.layers.Dropout(0.3))
