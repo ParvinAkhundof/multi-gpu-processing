@@ -34,7 +34,7 @@ import threading
 clients = set()
 clients_lock = threading.Lock()
 ip_list=[]
-ip_list.append(my_ip+":12345")
+# ip_list.append(my_ip+":12345")
 
 
 def listener(client,address):
