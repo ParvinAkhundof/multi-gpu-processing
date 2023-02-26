@@ -96,7 +96,9 @@ while True:
     client, address = s.accept()
     print(address)
     if(str(address).split(",")[0].split("'")[1]==str(my_ip)):
-        worker.run_worker(my_ip)
+        # worker.run_worker(my_ip)
+        # print("Running")
+        break
     
     else:
         print("Accepted connection from: ", address)
@@ -116,6 +118,6 @@ while True:
     #         break
         
 
+s.close()
 
-
-
+worker.run_worker(my_ip)
