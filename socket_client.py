@@ -26,8 +26,8 @@ socketObject = socket.socket()
 
 # Using the socket connect to a server...in this case localhost
 cluster=""+my_ip.split('.')[0]+"."+my_ip.split('.')[1]+"."+my_ip.split('.')[2]+"."
-print("Enter last num of server ip! "+cluster+"???")
-ip=cluster+str(input())
+
+ip=cluster+sys.argv[1]
 try:
     socketObject.connect((ip, 5000))
     print("Connected to "+ip)
@@ -62,9 +62,9 @@ while (True):
 
     print(data)
 
-    if(len(sys.argv)>1 & run):
+    if(len(sys.argv)>2 & run):
         run=False
-        HTTPMessage=sys.argv[1]
+        HTTPMessage=sys.argv[2]
         bytes = str.encode(HTTPMessage)
         socketObject.sendall(bytes)
 
