@@ -48,7 +48,6 @@ bytes = str.encode(HTTPMessage)
 socketObject.sendall(bytes)
 
 
-print (len(sys.argv))
 
 
 
@@ -63,7 +62,7 @@ while (True):
 
     print(data)
 
-    if(len(sys.argv)>2 & run):
+    if(len(sys.argv)>2 and run):
         run=False
         HTTPMessage=sys.argv[2]
         bytes = str.encode(HTTPMessage)
