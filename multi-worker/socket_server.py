@@ -87,7 +87,7 @@ s = socket.socket()
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.bind((host,port))
 s.listen(125)
-# th = []
+th = []
 
 import concurrent.futures
 
@@ -96,8 +96,10 @@ while True:
     client, address = s.accept()
     if(str(address).split(",")[0].split("'")[1]==str(my_ip)):
         break
-    print("Accepted connection from: ", address)
-    # th.append(Thread(target=listener, args = (client)).start())
+    
+    else:
+        print("Accepted connection from: ", address)
+        th.append(Thread(target=listener, args = (client)).start())
     # with concurrent.futures.ThreadPoolExecutor() as executor:
     #     future = executor.submit(listener, client)
     #     return_value = future.result()
