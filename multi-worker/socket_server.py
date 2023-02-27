@@ -80,7 +80,7 @@ def listener(client,address):
             
 
 host = my_ip
-port = 5009
+port = 5010
 
 
 s = socket.socket()
