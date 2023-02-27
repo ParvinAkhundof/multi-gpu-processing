@@ -79,12 +79,6 @@ def run_worker(my_ip,tf_config):
   options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.OFF
   multi_worker_dataset = multi_worker_dataset.with_options(options)
 
-  # options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.DATA
-
-
-
-  multi_worker_dataset = strategy.experimental_distribute_dataset(multi_worker_dataset)
-
 
   with strategy.scope():
       
