@@ -2,7 +2,6 @@ from scipy.io import loadmat
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
-import tensorflow_datasets as tfds
 
 def svhn_train_dataset(batch_size,index,num_workers):
   train = loadmat('../train_32x32.mat')
@@ -12,7 +11,7 @@ def svhn_train_dataset(batch_size,index,num_workers):
   y_train = y_train[:,0]
   y_train[y_train==10] = 0
 
-  y_train = tf.keras.utils.to_categorical(y_train, 10)
+  # y_train = tf.keras.utils.to_categorical(y_train, 10)
 
 #   X_train=np.array_split(X_train, num_workers)[index]
 #   y_train=np.array_split(y_train, num_workers)[index]
@@ -31,7 +30,7 @@ def svhn_test_dataset(batch_size,index,num_workers):
     y_test = y_test[:,0]
     y_test[y_test==10] = 0
 
-    y_test = tf.keras.utils.to_categorical(y_test, 10)
+    # y_test = tf.keras.utils.to_categorical(y_test, 10)
 
     # X_test=np.array_split(X_test, num_workers)[index]
     # y_test=np.array_split(y_test, num_workers)[index]
