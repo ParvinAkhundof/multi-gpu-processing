@@ -84,39 +84,7 @@ dataset = dataset.with_options(options)
 # Create the distributed dataset
 dist_dataset = strategy.experimental_distribute_dataset(dataset)
 
-
-
-def train_step(inputs):
-    features, labels = inputs
-
-    with tf.GradientTape() as tape:
-        predictions = model(features, training=True)
-        loss = model.compiled_loss(labels, predictions)
-
-    gradients = tape.gradient(loss, model.trainable_variables)
-    model.optimizer.apply_gradients(zip(gradients, model.trainable_variables))
-
-    model.compiled_metrics.update_state(labels, predictions)
-
-    return loss
-
-@tf.function
-def distributed_train_step(dataset_inputs):
-    per_replica_losses = strategy.run(train_step, args=(dataset_inputs,))
-    return strategy.reduce(tf.distribute.ReduceOp.SUM, per_replica_losses,
-                           axis=None)
-
-# Define the number of epochs
-epochs = 1
-
-for epoch in range(epochs):
-    total_loss = 0.0
-    num_batches = 0
-    for x in dist_dataset:
-        total_loss += distributed_train_step(x)
-        num_batches += 1
-    train_loss = total_loss / num_batches
-    print('Epoch: %d, Loss: %f' % (epoch, train_loss))
+model.fit(dist_dataset,epochs=1)
 ##################
 
 
