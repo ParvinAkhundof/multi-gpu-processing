@@ -64,7 +64,7 @@ with strategy.scope():
     # model = make_or_restore.make_or_restore_model(checkpoint_dir) ##SVHN
 
     # Compile the model
-    model.compile(optimizer='sgd', loss='mse')
+    # model.compile(optimizer='sgd', loss='mse')
 
 
 dataset = mnist_setup.mnist_dataset_train(global_batch_size,index,num_workers)   ##MNIST

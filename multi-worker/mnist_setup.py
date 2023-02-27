@@ -74,10 +74,10 @@ def build_and_compile_cnn_model():
 
 
   model.summary()
-  # model.compile(
-  #     optimizer=tf.keras.optimizers.Adam(),
-  #     loss=tf.keras.losses.SparseCategoricalCrossentropy(),
-  #     metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])
+  model.compile(
+      optimizer=tf.keras.optimizers.Adam(),
+      loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+      metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])
 
   return model
 
