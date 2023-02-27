@@ -62,11 +62,11 @@ def build_and_compile_cnn_model():
 
   model.summary()
 
-#   model.compile(
-#       optimizer=keras.optimizers.Adam(),
-#       loss=keras.losses.SparseCategoricalCrossentropy(),
-#       metrics=[keras.metrics.SparseCategoricalAccuracy()],
-#   )
+  model.compile(
+      optimizer=keras.optimizers.Adam(),
+      loss=keras.losses.SparseCategoricalCrossentropy(),
+      metrics=[keras.metrics.SparseCategoricalAccuracy()],
+  )
 
 
 
