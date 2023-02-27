@@ -15,7 +15,7 @@ for gpu in gpus:
 
 tf_config={
     'cluster': {
-        'worker': ['192.168.75.29:12345','192.168.75.30:12345']},
+        'worker': ['192.168.75.29:12345']},
     'task': {'type': 'worker', 'index': 0}
 }
 
