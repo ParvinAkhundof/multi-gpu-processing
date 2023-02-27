@@ -69,7 +69,7 @@ def run_worker(my_ip,tf_config):
   num_workers = strategy.num_replicas_in_sync
   print("Number of devices: {}".format(strategy.num_replicas_in_sync))
 
-  global_batch_size = per_worker_batch_size #* num_workers
+  global_batch_size = per_worker_batch_size *2 #* num_workers
   # global_batch_size = per_worker_batch_size 
   # multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size,index,num_workers) ##SVHN
 
@@ -101,8 +101,8 @@ def run_worker(my_ip,tf_config):
   str_elapsed_time = time.strftime("%H : %M : %S", time.gmtime(elapsed_time))
   print(">> Finished. Time elapsed: {}.".format(str_elapsed_time))
 
-  test_dataset = svhn_setup.svhn_test_dataset(global_batch_size,index,num_workers)  ##SVHN
-  # test_dataset = mnist_setup.mnist_dataset_test(global_batch_size,index,num_workers)  ##MNIST
+  # test_dataset = svhn_setup.svhn_test_dataset(global_batch_size,index,num_workers)  ##SVHN
+  test_dataset = mnist_setup.mnist_dataset_test(global_batch_size,index,num_workers)  ##MNIST
 
   loss, acc = multi_worker_model.evaluate(test_dataset)
   print("Model accuracy on test data is: {:6.3f}%".format(100 * acc))
