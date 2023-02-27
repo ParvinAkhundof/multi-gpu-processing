@@ -80,7 +80,7 @@ def listener(client,address):
             
 
 host = my_ip
-port = 5014
+port = 5015
 
 
 s = socket.socket()
@@ -90,34 +90,17 @@ s.listen(125)
 th = []
 
 # import concurrent.futures
-
-while True:
-    print("Server is listening for connections...")
-    client, address = s.accept()
-    # print(address)
-    # if(str(address).split(",")[0].split("'")[1]==str(my_ip)):
-    #     # worker.run_worker(my_ip)
-    #     # print("Running")
-    #     break
-    
-    # else:
-    #     print("Accepted connection from: ", address)
-    #     th.append(Thread(target=listener, args = (client,address)).start())
-
-    print("Accepted connection from: ", address)
-    th.append(Thread(target=listener, args = (client,address)).start())
+try:
+    while True:
+        print("Server is listening for connections...")
+        client, address = s.accept()
+        print("Accepted connection from: ", address)
+        th.append(Thread(target=listener, args = (client,address)).start())
+except KeyboardInterrupt:
+    print('interrupted!')
+    s.close()
     
 
-    # with concurrent.futures.ThreadPoolExecutor() as executor:
-    #     future = executor.submit(listener, client)
-    #     return_value = future.result()
-    #     print(return_value)
-    #     if(return_value==1):
-    #         print("running")
-    #         # worker.run_worker(my_ip)
-    #         break
-        
 
-# s.close()
 
-# worker.run_worker(my_ip)
+
