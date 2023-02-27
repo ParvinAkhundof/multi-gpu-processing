@@ -8,7 +8,7 @@ def mnist_dataset_train(batch_size,index,num_workers):
   y_train = y_train.astype(np.float32)
 
 
-  y_train = tf.keras.utils.to_categorical(y_train, 10)
+  # y_train = tf.keras.utils.to_categorical(y_train, 10)
 
 
 
@@ -44,7 +44,7 @@ def mnist_dataset_test(batch_size,index,num_workers):
   x_test = x_test / np.float32(255)
   y_test = y_test.astype(np.float32)
 
-  y_test = tf.keras.utils.to_categorical(y_test, 10)
+  # y_test = tf.keras.utils.to_categorical(y_test, 10)
   
   # x_test=np.array_split(x_test, num_workers)[index]
   # y_test=np.array_split(y_test, num_workers)[index]
