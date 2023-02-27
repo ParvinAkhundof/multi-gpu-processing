@@ -30,7 +30,7 @@ cluster=""+my_ip.split('.')[0]+"."+my_ip.split('.')[1]+"."+my_ip.split('.')[2]+"
 
 ip=cluster+sys.argv[1]
 try:
-    socketObject.connect((ip, 5006))
+    socketObject.connect((ip, 5007))
     print("Connected to "+ip)
 except:
     print("not Connected to "+ip)
