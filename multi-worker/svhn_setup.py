@@ -12,8 +12,10 @@ def svhn_train_dataset(batch_size,index,num_workers):
   y_train = y_train[:,0]
   y_train[y_train==10] = 0
 
-  X_train=np.array_split(X_train, num_workers)[index]
-  y_train=np.array_split(y_train, num_workers)[index]
+  y_train = tf.keras.utils.to_categorical(y_train, 10)
+
+#   X_train=np.array_split(X_train, num_workers)[index]
+#   y_train=np.array_split(y_train, num_workers)[index]
 
   return (
       tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(batch_size)
@@ -28,6 +30,8 @@ def svhn_test_dataset(batch_size,index,num_workers):
     X_test = np.rollaxis(X_test, 3)/ 255
     y_test = y_test[:,0]
     y_test[y_test==10] = 0
+
+    y_test = tf.keras.utils.to_categorical(y_test, 10)
 
     # X_test=np.array_split(X_test, num_workers)[index]
     # y_test=np.array_split(y_test, num_workers)[index]
@@ -58,11 +62,11 @@ def build_and_compile_cnn_model():
 
   model.summary()
 
-  model.compile(
-      optimizer=keras.optimizers.Adam(),
-      loss=keras.losses.SparseCategoricalCrossentropy(),
-      metrics=[keras.metrics.SparseCategoricalAccuracy()],
-  )
+#   model.compile(
+#       optimizer=keras.optimizers.Adam(),
+#       loss=keras.losses.SparseCategoricalCrossentropy(),
+#       metrics=[keras.metrics.SparseCategoricalAccuracy()],
+#   )
 
 
 

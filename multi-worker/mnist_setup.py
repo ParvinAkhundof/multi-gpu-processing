@@ -4,10 +4,13 @@ from tensorflow import keras
 
 def mnist_dataset_train(batch_size,index,num_workers):
   (x_train, y_train), _ = tf.keras.datasets.mnist.load_data()
-  # The `x` arrays are in uint8 and have values in the [0, 255] range.
-  # You need to convert them to float32 with values in the [0, 1] range.
   x_train = x_train / np.float32(255)
-  y_train = y_train.astype(np.int64)
+  y_train = y_train.astype(np.float32)
+
+
+  y_train = tf.keras.utils.to_categorical(y_train, 10)
+
+
 
 
   x_train=np.concatenate((x_train, x_train), axis=0)
@@ -15,16 +18,13 @@ def mnist_dataset_train(batch_size,index,num_workers):
 
   x_train=np.concatenate((x_train, x_train), axis=0)
   y_train=np.concatenate((y_train, y_train), axis=0)
-
+  
   x_train=np.concatenate((x_train, x_train), axis=0)
   y_train=np.concatenate((y_train, y_train), axis=0)
-
+  
   x_train=np.concatenate((x_train, x_train), axis=0)
   y_train=np.concatenate((y_train, y_train), axis=0)
-
-  x_train=np.concatenate((x_train, x_train), axis=0)
-  y_train=np.concatenate((y_train, y_train), axis=0)
-
+  
   x_train=np.concatenate((x_train, x_train), axis=0)
   y_train=np.concatenate((y_train, y_train), axis=0)
 
@@ -41,10 +41,10 @@ def mnist_dataset_train(batch_size,index,num_workers):
 
 def mnist_dataset_test(batch_size,index,num_workers):
   _, (x_test, y_test) = tf.keras.datasets.mnist.load_data()
-  # The `x` arrays are in uint8 and have values in the [0, 255] range.
-  # You need to convert them to float32 with values in the [0, 1] range.
   x_test = x_test / np.float32(255)
-  y_test = y_test.astype(np.int64)
+  y_test = y_test.astype(np.float32)
+
+  y_test = tf.keras.utils.to_categorical(y_test, 10)
   
   # x_test=np.array_split(x_test, num_workers)[index]
   # y_test=np.array_split(y_test, num_workers)[index]
@@ -70,11 +70,14 @@ def build_and_compile_cnn_model():
   model.add(keras.layers.Dropout(0.3))
   model.add(keras.layers.Dense(10, activation='softmax'))
 
+  
+
 
   model.summary()
-  model.compile(
-      optimizer=tf.keras.optimizers.Adam(),
-      loss=tf.keras.losses.SparseCategoricalCrossentropy(),
-      metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])
+  # model.compile(
+  #     optimizer=tf.keras.optimizers.Adam(),
+  #     loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+  #     metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])
+
   return model
 
