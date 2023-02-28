@@ -71,28 +71,11 @@ def build_and_compile_cnn_model():
   # model.add(keras.layers.Dense(10, activation='softmax'))
 
 
-  input_shape = (28, 28, 1)
-  num_classes = 10
-  model = tf.keras.Sequential([
-    # First convolutional layer
-    tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=input_shape),
-    tf.keras.layers.MaxPooling2D((2, 2)),
-    tf.keras.layers.Dropout(0.25),
-    # Second convolutional layer
-    tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
-    tf.keras.layers.MaxPooling2D((2, 2)),
-    tf.keras.layers.Dropout(0.25),
-    # Third convolutional layer
-    tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
-    tf.keras.layers.MaxPooling2D((2, 2)),
-    tf.keras.layers.Dropout(0.25),
-    # Flatten the output from the convolutional layers
-    tf.keras.layers.Flatten(),
-    # Fully connected layer
-    tf.keras.layers.Dense(128, activation='relu'),
-    tf.keras.layers.Dropout(0.5),
-    # Output layer with softmax activation
-    tf.keras.layers.Dense(num_classes, activation='softmax')
+  model = tf.keras.models.Sequential([
+      tf.keras.layers.Flatten(input_shape=(28, 28)),  # Flatten 2D input to 1D array
+      tf.keras.layers.Dense(128, activation='relu'),  # Fully connected layer with 128 units and ReLU activation
+      tf.keras.layers.Dropout(0.2),  # Dropout layer to reduce overfitting
+      tf.keras.layers.Dense(10, activation='softmax')  # Output layer with 10 units for 10 classes and softmax activation
   ])
   
 
