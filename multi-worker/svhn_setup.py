@@ -43,14 +43,30 @@ def svhn_test_dataset(batch_size,index,num_workers):
 
 
 def build_and_compile_cnn_model():
+  # model = keras.Sequential()
+  # model.add(keras.Input(shape=(32, 32, 3)))  
+
+  # model.add(keras.layers.Conv2D(32, 3, activation="relu"))
+  # model.add(keras.layers.Conv2D(32, 3, activation="relu"))
+  # model.add(keras.layers.MaxPooling2D(2))
+  # model.add(keras.layers.Dropout(0.3))
+  # model.add(keras.layers.Conv2D(64, 3, activation="relu"))
+  # model.add(keras.layers.Conv2D(64, 3, activation="relu"))
+  # model.add(keras.layers.MaxPooling2D(2))
+  # model.add(keras.layers.Dropout(0.3))
+  # model.add(keras.layers.Flatten())
+  # model.add(keras.layers.Dense(512, activation="relu"))
+  # model.add(keras.layers.Dropout(0.3))
+  # model.add(keras.layers.Dense(10, activation='softmax'))
+
   model = keras.Sequential()
   model.add(keras.Input(shape=(32, 32, 3)))  
 
   model.add(keras.layers.Conv2D(32, 3, activation="relu"))
-  model.add(keras.layers.Conv2D(32, 3, activation="relu"))
+  model.add(keras.layers.Conv2D(9932, 3, activation="relu"))
   model.add(keras.layers.MaxPooling2D(2))
   model.add(keras.layers.Dropout(0.3))
-  model.add(keras.layers.Conv2D(64, 3, activation="relu"))
+  model.add(keras.layers.Conv2D(964, 3, activation="relu"))
   model.add(keras.layers.Conv2D(64, 3, activation="relu"))
   model.add(keras.layers.MaxPooling2D(2))
   model.add(keras.layers.Dropout(0.3))
@@ -58,6 +74,7 @@ def build_and_compile_cnn_model():
   model.add(keras.layers.Dense(512, activation="relu"))
   model.add(keras.layers.Dropout(0.3))
   model.add(keras.layers.Dense(10, activation='softmax'))
+
 
   model.summary()
 
