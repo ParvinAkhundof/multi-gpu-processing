@@ -13,41 +13,23 @@ import socket
 
 def run_worker(my_ip,tf_config):
 
+
+  svhn=False
   ##########
 
-  gpus = tf.config.experimental.list_physical_devices('GPU')
-  for gpu in gpus:
-    tf.config.experimental.set_memory_growth(gpu, True)
+  # gpus = tf.config.experimental.list_physical_devices('GPU')
+  # for gpu in gpus:
+  #   tf.config.experimental.set_memory_growth(gpu, True)
 
-  #########
-
-
-  # def get_ip():
-  #     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-  #     s.settimeout(0)
-  #     try:
-  #         s.connect(('10.254.254.254', 1))
-  #         IP = s.getsockname()[0]
-  #     except Exception:
-  #         IP = '127.0.0.1'
-  #     finally:
-  #         s.close()
-  #     return IP
-
-
-  # f = open("tf_config.txt", "r")
-  # tf_config=json.loads(f.read())
-  print(tf_config)
 
   index=0
-  # my_ip=get_ip()
   for x in tf_config['cluster']['worker']:
     if(x.split(':')[0]==my_ip):
       tf_config['task']['index'] = index
       break
     index=index+1
 
-  print(index)
+
   os.environ['TF_CONFIG']=json.dumps(tf_config)
   # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
@@ -60,9 +42,6 @@ def run_worker(my_ip,tf_config):
 
 
 
-
-
-  # strategy = tf.distribute.MultiWorkerMirroredStrategy()
   strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy(communication=tf.distribute.experimental.CollectiveCommunication.NCCL)
 
 
@@ -70,20 +49,22 @@ def run_worker(my_ip,tf_config):
   print("Number of devices: {}".format(strategy.num_replicas_in_sync))
 
   global_batch_size = per_worker_batch_size * num_workers
-  # global_batch_size = per_worker_batch_size 
-  multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size,index,num_workers) ##SVHN
 
-  # multi_worker_dataset = mnist_setup.mnist_dataset_train(global_batch_size,index,num_workers)   ##MNIST
+  if(svhn):
+    multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size,index,num_workers) ##SVHN
+  else:
+    multi_worker_dataset = mnist_setup.mnist_dataset_train(global_batch_size,index,num_workers)   ##MNIST
 
   # options = tf.data.Options()
   # options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.OFF
   # multi_worker_dataset = multi_worker_dataset.with_options(options)
 
-
+  start_time = time.time()
   with strategy.scope():
-      
-    multi_worker_model = make_or_restore.make_or_restore_model(checkpoint_dir) ##SVHN
-    # multi_worker_model = mnist_setup.build_and_compile_cnn_model()  ##MNIST
+    if(svhn):  
+      multi_worker_model = make_or_restore.make_or_restore_model(checkpoint_dir) ##SVHN
+    else:
+      multi_worker_model = mnist_setup.build_and_compile_cnn_model()  ##MNIST
 
   # callbacks = [
       
@@ -92,7 +73,7 @@ def run_worker(my_ip,tf_config):
   #     ),
   #     keras.callbacks.TensorBoard(checkpoint_dir + "/tb/")
   # ]
-  start_time = time.time()
+  
 
   # multi_worker_model.fit(multi_worker_dataset,callbacks=callbacks)
   multi_worker_model.fit(multi_worker_dataset,epochs=1)
@@ -101,8 +82,10 @@ def run_worker(my_ip,tf_config):
   str_elapsed_time = time.strftime("%H : %M : %S", time.gmtime(elapsed_time))
   print(">> Finished. Time elapsed: {}.".format(str_elapsed_time))
 
-  test_dataset = svhn_setup.svhn_test_dataset(global_batch_size,index,num_workers)  ##SVHN
-  # test_dataset = mnist_setup.mnist_dataset_test(global_batch_size,index,num_workers)  ##MNIST
+  if(svhn):
+    test_dataset = svhn_setup.svhn_test_dataset(global_batch_size,index,num_workers)  ##SVHN
+  else:
+    test_dataset = mnist_setup.mnist_dataset_test(global_batch_size,index,num_workers)  ##MNIST
 
   loss, acc = multi_worker_model.evaluate(test_dataset)
   print("Model accuracy on test data is: {:6.3f}%".format(100 * acc))
