@@ -7,6 +7,7 @@ import make_or_restore
 import config
 import time
 import mnist_setup
+import math
 
 
 import socket
@@ -15,6 +16,7 @@ def run_worker(my_ip,tf_config):
 
 
   svhn=False
+  # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
   ##########
 
   # gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -31,7 +33,7 @@ def run_worker(my_ip,tf_config):
 
 
   os.environ['TF_CONFIG']=json.dumps(tf_config)
-  # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
 
   checkpoint_dir =config.checkpoint_dir
   if not os.path.exists(checkpoint_dir):
@@ -51,13 +53,22 @@ def run_worker(my_ip,tf_config):
   global_batch_size = per_worker_batch_size * num_workers
 
   if(svhn):
-    multi_worker_dataset = svhn_setup.svhn_train_dataset(global_batch_size,index,num_workers) ##SVHN
+    multi_worker_dataset,trainingsize = svhn_setup.svhn_train_dataset(global_batch_size) ##SVHN
   else:
-    multi_worker_dataset = mnist_setup.mnist_dataset_train(global_batch_size,index,num_workers)   ##MNIST
+    multi_worker_dataset,trainingsize = mnist_setup.mnist_dataset_train(global_batch_size)   ##MNIST
 
   # options = tf.data.Options()
   # options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.OFF
   # multi_worker_dataset = multi_worker_dataset.with_options(options)
+
+
+  multi_worker_dataset = strategy.experimental_distribute_dataset(multi_worker_dataset)
+
+  def calculate_spe(y):
+    return int(math.ceil((1. * y) / global_batch_size)) 
+
+
+  steps_per_epoch = calculate_spe(trainingsize)
 
   start_time = time.time()
   with strategy.scope():
@@ -76,16 +87,16 @@ def run_worker(my_ip,tf_config):
   
 
   # multi_worker_model.fit(multi_worker_dataset,callbacks=callbacks)
-  multi_worker_model.fit(multi_worker_dataset,epochs=1)
+  multi_worker_model.fit(multi_worker_dataset,epochs=1, steps_per_epoch=steps_per_epoch)
 
   elapsed_time = time.time() - start_time
   str_elapsed_time = time.strftime("%H : %M : %S", time.gmtime(elapsed_time))
   print(">> Finished. Time elapsed: {}.".format(str_elapsed_time))
 
   if(svhn):
-    test_dataset = svhn_setup.svhn_test_dataset(global_batch_size,index,num_workers)  ##SVHN
+    test_dataset = svhn_setup.svhn_test_dataset(global_batch_size)  ##SVHN
   else:
-    test_dataset = mnist_setup.mnist_dataset_test(global_batch_size,index,num_workers)  ##MNIST
+    test_dataset = mnist_setup.mnist_dataset_test(global_batch_size)  ##MNIST
 
   loss, acc = multi_worker_model.evaluate(test_dataset)
   print("Model accuracy on test data is: {:6.3f}%".format(100 * acc))

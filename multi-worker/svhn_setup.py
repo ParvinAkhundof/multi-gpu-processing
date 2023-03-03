@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow import keras
 import numpy as np
 
-def svhn_train_dataset(batch_size,index,num_workers):
+def svhn_train_dataset(batch_size):
   train = loadmat('../train_32x32.mat')
   X_train = train['X']
   y_train = train['y']
@@ -11,16 +11,12 @@ def svhn_train_dataset(batch_size,index,num_workers):
   y_train = y_train[:,0]
   y_train[y_train==10] = 0
 
-  # y_train = tf.keras.utils.to_categorical(y_train, 10)
-
-#   X_train=np.array_split(X_train, num_workers)[index]
-#   y_train=np.array_split(y_train, num_workers)[index]
 
   return (
       tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(batch_size)
-  )
+  ),X_train.size
 
-def svhn_test_dataset(batch_size,index,num_workers):
+def svhn_test_dataset(batch_size):
 
     test = loadmat('../test_32x32.mat')
 
@@ -30,10 +26,7 @@ def svhn_test_dataset(batch_size,index,num_workers):
     y_test = y_test[:,0]
     y_test[y_test==10] = 0
 
-    # y_test = tf.keras.utils.to_categorical(y_test, 10)
 
-    # X_test=np.array_split(X_test, num_workers)[index]
-    # y_test=np.array_split(y_test, num_workers)[index]
 
     return (
         tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(batch_size)
@@ -43,30 +36,14 @@ def svhn_test_dataset(batch_size,index,num_workers):
 
 
 def build_and_compile_cnn_model():
-  # model = keras.Sequential()
-  # model.add(keras.Input(shape=(32, 32, 3)))  
-
-  # model.add(keras.layers.Conv2D(32, 3, activation="relu"))
-  # model.add(keras.layers.Conv2D(32, 3, activation="relu"))
-  # model.add(keras.layers.MaxPooling2D(2))
-  # model.add(keras.layers.Dropout(0.3))
-  # model.add(keras.layers.Conv2D(64, 3, activation="relu"))
-  # model.add(keras.layers.Conv2D(64, 3, activation="relu"))
-  # model.add(keras.layers.MaxPooling2D(2))
-  # model.add(keras.layers.Dropout(0.3))
-  # model.add(keras.layers.Flatten())
-  # model.add(keras.layers.Dense(512, activation="relu"))
-  # model.add(keras.layers.Dropout(0.3))
-  # model.add(keras.layers.Dense(10, activation='softmax'))
-
   model = keras.Sequential()
   model.add(keras.Input(shape=(32, 32, 3)))  
 
   model.add(keras.layers.Conv2D(32, 3, activation="relu"))
-  model.add(keras.layers.Conv2D(9932, 3, activation="relu"))
+  model.add(keras.layers.Conv2D(32, 3, activation="relu"))
   model.add(keras.layers.MaxPooling2D(2))
   model.add(keras.layers.Dropout(0.3))
-  model.add(keras.layers.Conv2D(964, 3, activation="relu"))
+  model.add(keras.layers.Conv2D(64, 3, activation="relu"))
   model.add(keras.layers.Conv2D(64, 3, activation="relu"))
   model.add(keras.layers.MaxPooling2D(2))
   model.add(keras.layers.Dropout(0.3))
@@ -74,6 +51,7 @@ def build_and_compile_cnn_model():
   model.add(keras.layers.Dense(512, activation="relu"))
   model.add(keras.layers.Dropout(0.3))
   model.add(keras.layers.Dense(10, activation='softmax'))
+
 
 
   model.summary()
