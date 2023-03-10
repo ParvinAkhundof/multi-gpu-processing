@@ -4,7 +4,7 @@ import tensorflow as tf
 from tensorflow import keras
 import svhn_setup
 import make_or_restore
-import config
+# import config
 import time
 import mnist_setup
 import math
@@ -35,7 +35,7 @@ def run_worker(my_ip,tf_config):
   os.environ['TF_CONFIG']=json.dumps(tf_config)
 
 
-  checkpoint_dir =config.checkpoint_dir
+  checkpoint_dir ="./ckpt/"+socket.gethostname()
   if not os.path.exists(checkpoint_dir):
       os.makedirs(checkpoint_dir)
 
