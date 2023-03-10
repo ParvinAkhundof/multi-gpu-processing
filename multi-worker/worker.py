@@ -77,17 +77,17 @@ def run_worker(my_ip,tf_config):
     else:
       multi_worker_model = mnist_setup.build_and_compile_cnn_model()  ##MNIST
 
-  # callbacks = [
+  callbacks = [
       
-  #     keras.callbacks.ModelCheckpoint(
-  #         filepath=checkpoint_dir + "/ckpt" #, save_freq=100
-  #     ),
-  #     keras.callbacks.TensorBoard(checkpoint_dir + "/tb/")
-  # ]
+      keras.callbacks.ModelCheckpoint(
+          filepath=checkpoint_dir + "/ckpt" #, save_freq=100
+      ),
+      keras.callbacks.TensorBoard(checkpoint_dir + "/tb/")
+  ]
   
 
   # multi_worker_model.fit(multi_worker_dataset,callbacks=callbacks)
-  multi_worker_model.fit(multi_worker_dataset,epochs=1, steps_per_epoch=steps_per_epoch)
+  multi_worker_model.fit(multi_worker_dataset,epochs=1, steps_per_epoch=steps_per_epoch,callbacks=callbacks)
 
   elapsed_time = time.time() - start_time
   str_elapsed_time = time.strftime("%H : %M : %S", time.gmtime(elapsed_time))
