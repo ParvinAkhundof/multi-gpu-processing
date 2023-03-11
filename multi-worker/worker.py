@@ -4,7 +4,6 @@ import tensorflow as tf
 from tensorflow import keras
 import svhn_setup
 import make_or_restore
-# import config
 import time
 import mnist_setup
 import math
@@ -75,9 +74,9 @@ def run_worker(my_ip,tf_config):
   callbacks = [
       
       keras.callbacks.ModelCheckpoint(
-          filepath=checkpoint_dir + socket.gethostname()+"/cb" , #save_freq=100
+          filepath=checkpoint_dir +"cb/" , #save_freq=100
       ),
-      keras.callbacks.TensorBoard(checkpoint_dir+socket.gethostname() + "/tb/")
+      keras.callbacks.TensorBoard(checkpoint_dir + "/tb/"+socket.gethostname()+"/")
   ]
   
 
