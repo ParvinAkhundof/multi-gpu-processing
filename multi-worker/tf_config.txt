@@ -1,1 +1,0 @@
-{"cluster": {"worker": ["192.168.0.205:12345"]}, "task": {"type": "worker", "index": 0}}

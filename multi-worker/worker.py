@@ -17,11 +17,6 @@ def run_worker(my_ip,tf_config):
 
   svhn=True
   # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-  ##########
-
-  # gpus = tf.config.experimental.list_physical_devices('GPU')
-  # for gpu in gpus:
-  #   tf.config.experimental.set_memory_growth(gpu, True)
 
 
   index=0
@@ -35,7 +30,7 @@ def run_worker(my_ip,tf_config):
   os.environ['TF_CONFIG']=json.dumps(tf_config)
 
 
-  checkpoint_dir ="./ckpt/"+socket.gethostname()
+  checkpoint_dir ="./ckpt/"
   if not os.path.exists(checkpoint_dir):
       os.makedirs(checkpoint_dir)
 
@@ -80,9 +75,9 @@ def run_worker(my_ip,tf_config):
   callbacks = [
       
       keras.callbacks.ModelCheckpoint(
-          filepath=checkpoint_dir + "/ckpt" , #save_freq=100
+          filepath=checkpoint_dir + socket.gethostname()+"/cb" , #save_freq=100
       ),
-      keras.callbacks.TensorBoard(checkpoint_dir + "/tb/")
+      keras.callbacks.TensorBoard(checkpoint_dir+socket.gethostname() + "/tb/")
   ]
   
 
