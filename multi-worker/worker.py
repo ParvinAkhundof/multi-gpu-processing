@@ -80,7 +80,7 @@ def run_worker(my_ip,tf_config):
   callbacks = [
       
       keras.callbacks.ModelCheckpoint(
-          filepath=checkpoint_dir + "/ckpt" , save_freq=100
+          filepath=checkpoint_dir + "/ckpt" , #save_freq=100
       ),
       keras.callbacks.TensorBoard(checkpoint_dir + "/tb/")
   ]
