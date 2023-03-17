@@ -61,20 +61,5 @@ def build_and_compile_cnn_model():
       loss=keras.losses.SparseCategoricalCrossentropy(),
       metrics=[keras.metrics.SparseCategoricalAccuracy()],
   )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   return model
 

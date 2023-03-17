@@ -1,5 +1,4 @@
 import socket
-# import worker
 import json
 
 def get_ip():
@@ -20,21 +19,19 @@ print("ip of the server: "+my_ip)
 
 tf_config={
     'cluster': {
-        'worker': ['192.168.75.40:12345','192.168.75.41:12345','192.168.75.42:12345','192.168.75.43:12345']},
+        'worker': []},
     'task': {'type': 'worker', 'index': 0}
 }
 # ######
 
 
 import socket
-import os
 from threading import Thread
 import threading
 
 clients = set()
 clients_lock = threading.Lock()
 ip_list=[]
-# ip_list.append(my_ip+":12345")
 
 
 def listener(client,address):
@@ -49,7 +46,6 @@ def listener(client,address):
             if not data:
                 break
             else:
-                # print(repr(data))
                 if(data != b'start'):
                     ip_list.append(data.decode('ascii')+":12345")
                     with clients_lock:
@@ -65,8 +61,7 @@ def listener(client,address):
         
         
         print(tf_config)
-        
-        # client.connect((my_ip, 5000))
+
 
         
                         
@@ -89,7 +84,7 @@ s.bind((host,port))
 s.listen(125)
 th = []
 
-# import concurrent.futures
+
 try:
     while True:
         print("Server is listening for connections...")

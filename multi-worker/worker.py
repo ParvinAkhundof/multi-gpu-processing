@@ -14,7 +14,7 @@ import socket
 def run_worker(my_ip,tf_config):
 
 
-  svhn=True
+  svhn=False
   # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 
@@ -51,10 +51,6 @@ def run_worker(my_ip,tf_config):
   else:
     multi_worker_dataset,trainingsize = mnist_setup.mnist_dataset_train(global_batch_size)   ##MNIST
 
-  # options = tf.data.Options()
-  # options.experimental_distribute.auto_shard_policy = tf.data.experimental.AutoShardPolicy.OFF
-  # multi_worker_dataset = multi_worker_dataset.with_options(options)
-
 
   multi_worker_dataset = strategy.experimental_distribute_dataset(multi_worker_dataset)
 
@@ -71,17 +67,17 @@ def run_worker(my_ip,tf_config):
     else:
       multi_worker_model = mnist_setup.build_and_compile_cnn_model()  ##MNIST
 
-  callbacks = [
+  # callbacks = [
       
-      keras.callbacks.ModelCheckpoint(
-          filepath=checkpoint_dir +"cb/" , #save_freq=100
-      ),
-      keras.callbacks.TensorBoard(checkpoint_dir + "/tb/"+socket.gethostname()+"/")
-  ]
+  #     keras.callbacks.ModelCheckpoint(
+  #         filepath=checkpoint_dir +"cb/" , #save_freq=100
+  #     ),
+  #     keras.callbacks.TensorBoard(checkpoint_dir + "/tb/"+socket.gethostname()+"/")
+  # ]
   
 
-  # multi_worker_model.fit(multi_worker_dataset,callbacks=callbacks)
-  multi_worker_model.fit(multi_worker_dataset,epochs=1, steps_per_epoch=steps_per_epoch,callbacks=callbacks)
+  # multi_worker_model.fit(multi_worker_dataset,epochs=1, steps_per_epoch=steps_per_epoch,callbacks=callbacks)
+  multi_worker_model.fit(multi_worker_dataset,epochs=1, steps_per_epoch=steps_per_epoch)
 
   elapsed_time = time.time() - start_time
   str_elapsed_time = time.strftime("%H : %M : %S", time.gmtime(elapsed_time))
