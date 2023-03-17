@@ -52,7 +52,7 @@ def run_worker(my_ip,tf_config):
     multi_worker_dataset,trainingsize = mnist_setup.mnist_dataset_train(global_batch_size)   ##MNIST
 
 
-  # multi_worker_dataset = strategy.experimental_distribute_dataset(multi_worker_dataset)
+  multi_worker_dataset = strategy.experimental_distribute_dataset(multi_worker_dataset)
 
   def calculate_spe(y):
     return int(math.ceil((1. * y) / global_batch_size)) 
@@ -87,6 +87,8 @@ def run_worker(my_ip,tf_config):
     test_dataset = svhn_setup.svhn_test_dataset(global_batch_size)  ##SVHN
   else:
     test_dataset = mnist_setup.mnist_dataset_test(global_batch_size)  ##MNIST
+
+  test_dataset = strategy.experimental_distribute_dataset(test_dataset)
 
   loss, acc = multi_worker_model.evaluate(test_dataset)
   print("Model accuracy on test data is: {:6.3f}%".format(100 * acc))
