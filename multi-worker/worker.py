@@ -15,7 +15,7 @@ def run_worker(my_ip,tf_config):
 
 
   svhn=False
-  os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+  # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 
   index=0
@@ -52,7 +52,7 @@ def run_worker(my_ip,tf_config):
     multi_worker_dataset,trainingsize = mnist_setup.mnist_dataset_train(global_batch_size)   ##MNIST
 
 
-  multi_worker_dataset = strategy.experimental_distribute_dataset(multi_worker_dataset)
+  # multi_worker_dataset = strategy.experimental_distribute_dataset(multi_worker_dataset)
 
   def calculate_spe(y):
     return int(math.ceil((1. * y) / global_batch_size)) 
@@ -77,7 +77,8 @@ def run_worker(my_ip,tf_config):
   
 
   # multi_worker_model.fit(multi_worker_dataset,epochs=1, steps_per_epoch=steps_per_epoch,callbacks=callbacks)
-  multi_worker_model.fit(multi_worker_dataset,epochs=1, steps_per_epoch=steps_per_epoch)
+  # multi_worker_model.fit(multi_worker_dataset,epochs=1, steps_per_epoch=steps_per_epoch)
+  multi_worker_model.fit(multi_worker_dataset,epochs=1)
 
   elapsed_time = time.time() - start_time
   str_elapsed_time = time.strftime("%H : %M : %S", time.gmtime(elapsed_time))
