@@ -21,7 +21,7 @@ def mnist_dataset_test(batch_size):
 
   train_dataset = tf.data.Dataset.from_tensor_slices(
       (x_test, y_test)).batch(batch_size)
-  return train_dataset
+  return train_dataset, y_test.size
 
 def build_and_compile_cnn_model():
   model = keras.Sequential()

@@ -30,7 +30,7 @@ def svhn_test_dataset(batch_size):
 
     return (
         tf.data.Dataset.from_tensor_slices((X_test, y_test)).batch(batch_size)
-    )
+    ), y_test.size
   
   
 
