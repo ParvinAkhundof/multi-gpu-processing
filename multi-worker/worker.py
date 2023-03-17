@@ -14,8 +14,8 @@ import socket
 def run_worker(my_ip,tf_config):
 
 
-  svhn=True
-  os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+  svhn=False
+  # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 
   index=0
