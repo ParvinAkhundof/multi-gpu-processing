@@ -91,7 +91,7 @@ def run_worker(my_ip,tf_config):
   test_dataset = strategy.experimental_distribute_dataset(test_dataset)
   steps_per_epoch = calculate_spe(trainingsize)
 
-  loss, acc = multi_worker_model.evaluate(test_dataset, steps_per_epoch=steps_per_epoch)
+  loss, acc = multi_worker_model.evaluate(test_dataset, epochs=1, steps_per_epoch=steps_per_epoch)
   print("Model accuracy on test data is: {:6.3f}%".format(100 * acc))
 
 
