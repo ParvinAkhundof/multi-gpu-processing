@@ -84,14 +84,14 @@ def run_worker(my_ip,tf_config):
   print(">> Finished. Time elapsed: {}.".format(str_elapsed_time))
 
   if(svhn):
-    test_dataset,trainingsize = svhn_setup.svhn_test_dataset(global_batch_size)  ##SVHN
+    test_dataset = svhn_setup.svhn_test_dataset(global_batch_size)  ##SVHN
   else:
-    test_dataset,trainingsize = mnist_setup.mnist_dataset_test(global_batch_size)  ##MNIST
+    test_dataset = mnist_setup.mnist_dataset_test(global_batch_size)  ##MNIST
 
-  test_dataset = strategy.experimental_distribute_dataset(test_dataset)
-  steps_per_epoch = calculate_spe(trainingsize)
+  
 
-  loss, acc = multi_worker_model.evaluate(test_dataset, epochs=1, steps_per_epoch=steps_per_epoch)
+
+  loss, acc = multi_worker_model.evaluate(test_dataset)
   print("Model accuracy on test data is: {:6.3f}%".format(100 * acc))
 
 
