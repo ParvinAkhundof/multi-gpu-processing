@@ -14,7 +14,7 @@ def svhn_train_dataset(batch_size):
 
   return (
       tf.data.Dataset.from_tensor_slices((X_train, y_train)).batch(batch_size)
-  ),X_train.size
+  ),y_train.size
 
 def svhn_test_dataset(batch_size):
 

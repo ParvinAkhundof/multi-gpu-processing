@@ -7,11 +7,11 @@ def mnist_dataset_train(batch_size):
   x_train = x_train / np.float32(255)
   y_train = y_train.astype(np.float32)
 
-  print(x_train.size)
+  print(y_train.size)
 
   train_dataset = tf.data.Dataset.from_tensor_slices(
       (x_train, y_train)).batch(batch_size)
-  return train_dataset, x_train.size
+  return train_dataset, y_train.size
 
 def mnist_dataset_test(batch_size):
   _, (x_test, y_test) = tf.keras.datasets.mnist.load_data()
@@ -26,19 +26,11 @@ def mnist_dataset_test(batch_size):
 def build_and_compile_cnn_model():
   model = keras.Sequential()
   model.add(keras.Input(shape=(28, 28, 1))) 
-  model.add(keras.layers.Conv2D(32, (3,3), activation="relu"))
-  model.add(keras.layers.Conv2D(32, (3,3), activation="relu"))
-  model.add(keras.layers.MaxPooling2D(2,2))
-  model.add(keras.layers.Dropout(0.3))
-  model.add(keras.layers.Conv2D(64, (3,3), activation="relu"))
-  model.add(keras.layers.Conv2D(64, (3,3), activation="relu"))
-  model.add(keras.layers.MaxPooling2D(2,2))
-  model.add(keras.layers.Dropout(0.3))
+  model.add(keras.layers.Conv2D(32, 3, activation="relu"))
   model.add(keras.layers.Flatten())
-
-  model.add(keras.layers.Dense(512, activation="relu"))
-  model.add(keras.layers.Dropout(0.3))
+  model.add(keras.layers.Dense(128, activation="relu"))
   model.add(keras.layers.Dense(10, activation='softmax'))
+
 
 
 
