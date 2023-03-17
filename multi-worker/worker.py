@@ -15,7 +15,7 @@ def run_worker(my_ip,tf_config):
 
 
   svhn=False
-  # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+  os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 
   index=0
