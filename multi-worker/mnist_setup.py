@@ -26,6 +26,7 @@ def mnist_dataset_test(batch_size):
 def build_and_compile_cnn_model():
   model = keras.Sequential()
   model.add(keras.Input(shape=(28, 28, 1))) 
+  
   model.add(keras.layers.Flatten())
   model.add(keras.layers.Dense(128, activation="relu"))
   model.add(keras.layers.Dropout(0.2))
