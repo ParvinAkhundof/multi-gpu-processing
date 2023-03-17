@@ -52,7 +52,7 @@ def run_worker(my_ip,tf_config):
     multi_worker_dataset,trainingsize = mnist_setup.mnist_dataset_train(global_batch_size)   ##MNIST
 
 
-  multi_worker_dataset = strategy.experimental_distribute_dataset(multi_worker_dataset)
+  # multi_worker_dataset = strategy.experimental_distribute_dataset(multi_worker_dataset)
 
   def calculate_spe(y):
     return int(math.ceil((1. * y) / global_batch_size)) 
